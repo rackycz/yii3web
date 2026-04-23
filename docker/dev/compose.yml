@@ -1,5 +1,6 @@
 services:
   app:
+    container_name: yii3web_php
     build:
       dockerfile: docker/Dockerfile
       context: ..
@@ -11,6 +12,14 @@ services:
       - path: ./dev/.env
       - path: ./dev/override.env
         required: false
+    environment:
+      DB_HOST: ${DB_HOST}
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    restart: unless-stopped
+    depends_on:
+      - db
     ports:
       - "${DEV_PORT:-80}:80"
     volumes:
@@ -20,3 +29,45 @@ services:
       - caddy_config:/config
     tty: true
 
+  db:
+    image: mariadb:12.2-noble
+    container_name: yii3web_db
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: ${DB_DATABASE}
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ${DOCKER_VOLUMES_FOLDER}/db:/var/lib/mysql
+    restart: unless-stopped
+
+  adminer:
+    image: adminer:latest
+    container_name: yii3web_adminer
+    environment:
+      ADMINER_DEFAULT_SERVER: db
+    ports:
+      - ${DEV_ADMINER_PORT}:8080
+    depends_on:
+      - db
+
+  composer:
+    container_name: yii3web_composer
+    build:
+      dockerfile: docker/Dockerfile
+      context: ..
+      target: dev
+      args:
+        USER_ID: ${UID}
+        GROUP_ID: ${GID}
+    env_file:
+      - path: ./dev/.env
+      - path: ./dev/override.env
+        required: false
+    restart: no
+    volumes:
+      - ../:/app
+    command: bash -c "composer install"
+
+volumes:
+  mariadb_data:
