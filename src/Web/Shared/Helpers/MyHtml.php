@@ -4,14 +4,22 @@ namespace App\Web\Shared\Helpers;
 
 class MyHtml
 {
+
+    /**
+     * Based on the 1st example https://getbootstrap.com/docs/5.3/components/navbar/
+     * Changes:
+     * - added: data-bs-theme
+     * - aded: justify-content-end
+     * - removed: me-auto from div.navbar-nav
+     * @return string
+     */
     public static function topMenu()
     {
         return <<<HTML
 <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="#">Yii3 demo</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
@@ -23,16 +31,13 @@ class MyHtml
                     <a class="nav-link" href="#">Link</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Dropdown
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="#">Action</a></li>
                         <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </li>
@@ -50,6 +55,14 @@ class MyHtml
 HTML;
     }
 
+    /**
+     * Based on the 1st example https://getbootstrap.com/docs/5.3/components/navbar/
+     * Changes:
+     * - added: data-bs-theme
+     * - aded: some flex stuff
+     * - removed: <button> + a.navbar-brand + <form>
+     * @return string
+     */
     public static function leftMenu()
     {
         return <<<HTML
@@ -57,27 +70,24 @@ HTML;
     <div class="d-flex flex-column align-items-stretch w-100 p-3">
         <ul class="navbar-nav flex-column w-100">
             <li class="nav-item">
-                <a class="nav-link active text-white" aria-current="page" href="#">Home</a>
+                <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="#">Link</a>
+                <a class="nav-link" href="#">Link</a>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown"
-                   aria-expanded="false">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Dropdown
                 </a>
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#">Action</a></li>
                     <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li>
-                        <hr class="dropdown-divider">
-                    </li>
+                    <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="#">Something else here</a></li>
                 </ul>
             </li>
             <li class="nav-item">
-                <a class="nav-link disabled text-white-50" aria-disabled="true">Disabled</a>
+                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
             </li>
         </ul>
     </div>
