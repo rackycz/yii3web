@@ -60,11 +60,13 @@
         "yiisoft/router-fastroute": "^4.0.3",
         "yiisoft/session": "^3.0.1",
         "yiisoft/view": "^12.2.4",
+        "yiisoft/widget": "^2.2",
         "yiisoft/yii-console": "^2.4.2",
         "yiisoft/yii-http": "^1.1.1",
         "yiisoft/yii-runner-console": "^2.2.1",
         "yiisoft/yii-runner-http": "^3.2.1",
-        "yiisoft/yii-view-renderer": "^7.4.1"
+        "yiisoft/yii-view-renderer": "^7.4.1",
+        "yiisoft/yii-widgets": "dev-master"
     },
     "require-dev": {
         "vlucas/phpdotenv": "^5.6",

@@ -6,6 +6,7 @@ use App\Web\Shared\Helpers\MyHtml;
 use App\Web\Shared\Layout\Main\BootstrapAsset;
 use App\Web\Shared\Layout\Main\MainAsset;
 use Yiisoft\Html\Html;
+use Yiisoft\Yii\Widgets\Menu;
 
 /**
  * @var \App\Shared\ApplicationParams $applicationParams
@@ -27,7 +28,50 @@ $this->addJsFiles($assetManager->getJsFiles());
 $this->addJsStrings($assetManager->getJsStrings());
 $this->addJsVars($assetManager->getJsVars());
 
-$this->beginPage()
+$this->beginPage();
+
+$topMenuItems = Menu::widget()
+    ->currentPath('/some-url')
+    ->attributes(['class' => 'navbar-nav mb-2 mb-lg-0'])
+    ->dropdownDefinitions(
+        [
+            'container()' => [false],
+            'dividerClass()' => ['dropdown-divider'],
+            'headerClass()' => ['dropdown-header'],
+            'itemClass()' => ['dropdown-item'],
+            'itemsContainerClass()' => ['dropdown-menu'],
+            'toggleAttributes()' => [
+                [
+                    'aria-expanded' => 'false',
+                    'data-bs-toggle' => 'dropdown',
+                    'role' => 'button',
+                ],
+            ],
+            'toggleClass()' => ['nav-link dropdown-toggle'],
+            'toggleType()' => ['link'],
+        ]
+    )
+    ->dropdownContainerClass('nav-item dropdown')
+    ->itemsContainerClass('nav-item')
+    ->linkClass('nav-link')
+    ->items(
+        [
+            ['label' => 'PHP', 'link' => '#'],
+            ['label' => 'Link', 'link' => '#'],
+            [
+                'label' => 'Dropdown',
+                'link' => '#',
+                'items' => [
+                    ['label' => 'Action', 'link' => '#'],
+                    ['label' => 'Another action', 'link' => '#'],
+                    '-',
+                    ['label' => 'Something else here', 'link' => '#'],
+                ],
+            ],
+            ['label' => 'Disabled', 'link' => '#', 'disabled' => true],
+        ]
+    )
+    ->render();
 ?>
 <!DOCTYPE html>
 <html lang="<?= Html::encode($applicationParams->locale) ?>">
@@ -41,11 +85,11 @@ $this->beginPage()
 <body>
 <?php $this->beginBody() ?>
 
-<?= MyHtml::topMenu(); ?>
+<?= MyHtml::topMenu($topMenuItems); ?>
 
 <div class="d-flex" style="height: 100vh;">
 
-    <?= MyHtml::leftMenu(); ?>
+    <?= MyHtml::leftMenu($topMenuItems); ?>
 
     <div class="content flex-grow-1 p-3">
         <div class="content_i">
