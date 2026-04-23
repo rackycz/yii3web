@@ -9,7 +9,7 @@ class MyHtml
      * Based on the 1st example https://getbootstrap.com/docs/5.3/components/navbar/
      * Changes:
      * - added: data-bs-theme
-     * - aded: justify-content-end
+     * - added: justify-content-end
      * - removed: me-auto from div.navbar-nav
      * @return string
      */
@@ -59,7 +59,7 @@ HTML;
      * Based on the 1st example https://getbootstrap.com/docs/5.3/components/navbar/
      * Changes:
      * - added: data-bs-theme
-     * - aded: some flex stuff
+     * - added: some flex stuff
      * - removed: <button> + a.navbar-brand + <form>
      * @return string
      */
