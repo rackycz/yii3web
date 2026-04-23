@@ -12,4 +12,4 @@ A clone of the official application https://github.com/yiisoft/app
 What was added/modififed:
 
 - CSS Bootstrap was added and the main menu was created
-    - Rendered using `Yiisoft\Yii\Widgets\Menu` from https://github.com/yiisoft/yii-widgets to render the menu
+    - Rendered using `Yiisoft\Yii\Widgets\Menu` from https://github.com/yiisoft/yii-widgets
