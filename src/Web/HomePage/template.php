@@ -8,6 +8,7 @@ use Yiisoft\View\WebView;
 /**
  * @var WebView $this
  * @var ApplicationParams $applicationParams
+ * @var array $users
  */
 
 $this->setTitle($applicationParams->name);
@@ -22,5 +23,9 @@ $this->setTitle($applicationParams->name);
         <a href="https://yiisoft.github.io/docs/" target="_blank" rel="noopener">
             <i>Don't forget to check the guide.</i>
         </a>
+    </p>
+
+    <p>
+        Number of users in the database: <?= count($users) ?>
     </p>
 </div>
