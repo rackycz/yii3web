@@ -63,9 +63,9 @@ class User extends BlameableEntity
     #[Column(type: 'integer')]
     private int $status = 100;
 
-    public function validatePassword(string $password): bool
+    public function validatePassword(string $password, string $expectedHash): bool
     {
-        return (new PasswordHasher())->validate($password, $this->pwd_hash);
+        return (new PasswordHasher())->validate($password, $expectedHash);
     }
 
     public function getId(): ?int

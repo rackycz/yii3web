@@ -27,6 +27,7 @@ final class M260423143300InsertUserTokenType implements RevertibleMigrationInter
             [3, 'API_PASSWORD_HASH'],
             [4, 'API_PASSWORD_DEFAULT'],
             [5, 'EMAIL_VERIFY'],
+            [6, 'API_BEARER'],
         ]);
     }
 

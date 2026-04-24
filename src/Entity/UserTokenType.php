@@ -8,16 +8,20 @@ use App\Entity\Base\BlameableEntity;
 use DateTimeImmutable;
 
 #[Table(name: 'user_token')]
-final class UserToken extends BlameableEntity
+final class UserTokenType extends BlameableEntity
 {
+    public const WEB_PASSWORD_HASH = 1;
+    public const WEB_PASSWORD_DEFAULT = 2;
+    public const API_PASSWORD_HASH = 3;
+    public const API_PASSWORD_DEFAULT = 4;
+    public const EMAIL_VERIFY = 5;
+    public const API_BEARER = 6;
+
     #[Column(type: 'primary')]
     private ?int $id = null;
 
     #[Column(type: 'integer', notNull: true)]
     private int $id_user;
-
-    #[Column(type: 'integer', notNull: true)]
-    private int $id_type;
 
     #[Column(type: 'string', notNull: true, unique: true)]
     private string $token;
@@ -25,11 +29,10 @@ final class UserToken extends BlameableEntity
     #[Column(type: 'datetime', notNull: true)]
     private DateTimeImmutable $expires_at;
 
-    public static function create(int $userId, string $token, int $tokenType, DateTimeImmutable $expiresAt = null): UserToken
+    public static function create(int $userId, string $token, DateTimeImmutable $expiresAt = null): UserTokenType
     {
-        $userToken = new UserToken();
+        $userToken = new UserTokenType();
         $userToken->id_user = $userId;
-        $userToken->id_type = $tokenType;
         $userToken->token = $token;
         $userToken->expires_at = $expiresAt;
         return $userToken;
@@ -39,7 +42,6 @@ final class UserToken extends BlameableEntity
     {
         return [
             'id_user' => $this->id_user ?? null,
-            'id_type' => $this->id_type,
             'token' => $this->token,
             'expires_at' => $this->expires_at->format('Y-m-d H:i:s'),
         ];
@@ -58,12 +60,12 @@ final class UserToken extends BlameableEntity
 
     public function getIdUser(): int
     {
-        return $this->id_user;
+        return $this->idUser;
     }
 
     public function setIdUser(int $idUser): self
     {
-        $this->id_user = $idUser;
+        $this->idUser = $idUser;
         return $this;
     }
 

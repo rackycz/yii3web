@@ -18,9 +18,13 @@ final class UserRepository extends BaseRepository
         return 'user';
     }
 
-    public function findByUsername(string $username): object
+    public function findByUsername(string $username): ?User
     {
-        return $this->findOne('username', $username);
+        $record = $this->findOne(['username' => $username]);
+        if (!$record) {
+            return null;
+        }
+        return $this->hydrate($record);
     }
 
     /**
@@ -49,24 +53,26 @@ final class UserRepository extends BaseRepository
     }
 
 
+    /**
+     * @throws \Exception
+     */
     public function hydrate(array $row): object
     {
         $model = new User();
-
-        $this->hydrateAttribute($model, 'id', (int)$row['id']);
-        $this->hydrateAttribute($model, 'name', ($row['name']));
-        $this->hydrateAttribute($model, 'surname', $row['surname']);
-        $this->hydrateAttribute($model, 'username', $row['username']);
-        $this->hydrateAttribute($model, 'phone', $row['phone']);
-        $this->hydrateAttribute($model, 'email', $row['email']);
-        $this->hydrateAttribute($model, 'email_verified_at', new DateTimeImmutable($row['email_verified_at'] ?? ''));
-        $this->hydrateAttribute($model, 'status', (int)$row['status']);
-        $this->hydrateAttribute($model, 'created_by', $row['created_by']);
-        $this->hydrateAttribute($model, 'updated_by', $row['updated_by']);
-        $this->hydrateAttribute($model, 'deleted_by', $row['deleted_by']);
-        $this->hydrateAttribute($model, 'created_at', new DateTimeImmutable($row['created_at']));
-        $this->hydrateAttribute($model, 'updated_at', new DateTimeImmutable($row['updated_at'] ?? ''));
-        $this->hydrateAttribute($model, 'deleted_at', new DateTimeImmutable($row['deleted_by'] ?? ''));
+        $model->setId((int)$row['id']);
+        $model->setName(($row['name']));
+        $model->setSurname($row['surname']);
+        $model->setUsername($row['username']);
+        $model->setPhone($row['phone']);
+        $model->setEmail($row['email']);
+        $model->setEmailVerifiedAt(new DateTimeImmutable($row['email_verified_at'] ?? ''));
+        $model->setStatus((int)$row['status']);
+        $model->setCreatedBy($row['created_by']);
+        $model->setUpdatedBy($row['updated_by']);
+        $model->setDeletedBy($row['deleted_by']);
+        $model->setCreatedAt(new DateTimeImmutable($row['created_at'] ?? ''));
+        $model->setUpdatedAt(new DateTimeImmutable($row['updated_at'] ?? ''));
+        $model->setDeletedAt(new DateTimeImmutable($row['deleted_by'] ?? ''));
 
         return $model;
     }

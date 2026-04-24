@@ -32,7 +32,7 @@ final class M260423143400InsertUser implements RevertibleMigrationInterface, Tra
         $apiPassword = 'admin';
         $webPasswordHash = (new PasswordHasher())->hash($webPassword);
         $apiPasswordHash = (new PasswordHasher())->hash($apiPassword);
-        $b->batchInsert('user_token', ['id', 'id_user', 'id_token_type', 'expires_at', 'token'], [
+        $b->batchInsert('user_token', ['id', 'id_user', 'id_type', 'expires_at', 'token'], [
             [1, 1, 1, null, $webPasswordHash],
             [2, 1, 2, null, $webPassword],
             [3, 1, 3, null, $apiPasswordHash],

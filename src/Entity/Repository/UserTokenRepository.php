@@ -6,6 +6,7 @@ namespace App\Entity\Repository;
 
 use App\Entity\Base\BaseRepository;
 use App\Entity\UserToken;
+use App\Entity\UserTokenType;
 use DateTimeImmutable;
 use Yiisoft\Db\Exception\Exception;
 use Yiisoft\Db\Exception\InvalidConfigException;
@@ -22,38 +23,23 @@ final class UserTokenRepository extends BaseRepository
     public function findByToken(string $token): ?UserToken
     {
         /** @var UserToken|null $tokenEntity */
-        $tokenEntity = $this->findOne('token', $token);
+        $record = $this->findOne(['token' => $token]);
 
-        if (!$tokenEntity) {
+        if (!$record) {
             return null;
         }
 
-        if ($tokenEntity->getExpiresAt() < new DateTimeImmutable()) {
-            // Optionally delete expired token
-            $this->delete($tokenEntity->getId());
+        $token = $this->hydrate($record);
+
+        if ($token->getExpiresAt() < new DateTimeImmutable()) {
+            $this->delete($token->getId());
             return null;
         }
 
-        return $tokenEntity;
+        return $token;
     }
 
-    /**
-     * @throws Exception
-     * @throws InvalidConfigException
-     */
-    public function deleteByUserId(int $userId): bool
-    {
-        try {
-            $this->db->createCommand()
-                ->delete($this->getTableName(), ['id_user' => $userId])
-                ->execute();
-        } catch (\Throwable $e) {
-            return false;
-        }
-        return true;
-    }
-
-    public function create(int $userId, ?string $token = null, ?DateTimeImmutable $expiresAt = null, $lifespan = '+2 hours'): UserToken
+    public function createApiBearer(int $userId, ?string $token = null, ?DateTimeImmutable $expiresAt = null, $lifespan = '+2 hours'): UserToken
     {
         if (!$token) {
             $token = bin2hex(Random::string(32));
@@ -63,12 +49,12 @@ final class UserTokenRepository extends BaseRepository
             $expiresAt = (new DateTimeImmutable())->modify($lifespan);
         }
 
-        $entity = UserToken::create($userId, $token, $expiresAt);
+        $token = UserToken::create($userId, $token, UserTokenType::API_BEARER, $expiresAt);
         $this->db->createCommand()
-            ->insert($this->getTableName(), $entity->toArray())
+            ->insert($this->getTableName(), $token->toArray())
             ->execute();
 
-        return $entity;
+        return $token;
     }
 
     /**
@@ -100,17 +86,30 @@ final class UserTokenRepository extends BaseRepository
     {
         $model = new UserToken();
 
-        $this->hydrateAttribute($model, 'id', (int)$row['id']);
-        $this->hydrateAttribute($model, 'id_user', $row['id_user']);
-        $this->hydrateAttribute($model, 'token', $row['token']);
-        $this->hydrateAttribute($model, 'expires_at', new DateTimeImmutable($row['expires_at']));
-        $this->hydrateAttribute($model, 'created_by', $row['created_by']);
-        $this->hydrateAttribute($model, 'updated_by', $row['updated_by']);
-        $this->hydrateAttribute($model, 'deleted_by', $row['deleted_by']);
-        $this->hydrateAttribute($model, 'created_at', new DateTimeImmutable($row['created_at']));
-        $this->hydrateAttribute($model, 'updated_at', new DateTimeImmutable($row['updated_at'] ?? ''));
-        $this->hydrateAttribute($model, 'deleted_at', new DateTimeImmutable($row['deleted_by'] ?? ''));
+        $model->setId((int)$row['id']);
+        $model->setIdUser((int)$row['id_user']);
+        $model->setToken($row['token']);
+        $model->setExpiresAt(new DateTimeImmutable($row['expires_at'] ?? ''));
+        $model->setcreatedBy($row['created_by']);
+        $model->setupdatedBy($row['updated_by']);
+        $model->setdeletedBy($row['deleted_by']);
+        $model->setcreatedAt(new DateTimeImmutable($row['created_at'] ?? ''));
+        $model->setupdatedAt(new DateTimeImmutable($row['updated_at'] ?? ''));
+        $model->setdeletedAt(new DateTimeImmutable($row['deleted_by'] ?? ''));
 
         return $model;
+    }
+
+    public function findTokenByType(int $userId, int $tokenType): ?string
+    {
+        $record = $this->findOne([
+            'id_user' => $userId,
+            'id_type' => $tokenType,
+        ]);
+        if (!$record) {
+            return null;
+        }
+        $userToken = $this->hydrate($record);
+        return $userToken->getToken();
     }
 }
