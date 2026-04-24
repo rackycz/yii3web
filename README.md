@@ -25,10 +25,17 @@ What was added/modififed:
 - REST API endpoints added
     - / = Lists all the users
     - /login = validates the login and creates the bearer token
-    - /bearer = tests if the correct bearer token is in the request
+        - Use this data in the POST request: { "username": "admin", "password": "admin" }
+    - /bearer = tests if the correct bearer token is in the POST request
+        - Use the "Bearer Token" Auth Type in Postman on the Authorization tab.
 
 TODO:
+
 - Study all the files in the `src/Api/Shared` folder. Are they needed? I just copied them from the API demo.
 - Use ActiveRecord
 - Enable Debugging via xDebug
-- Show usage of HTMX
+- Show usage of https://htmx.org/
+- Implement user management
+- Add language and timezone selection to the main menu, save them to the user profile
+- Place the language-code at the beginning of the URL?
+- Implement translations and localization (datetime format, numbers, etc.)
