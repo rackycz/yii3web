@@ -28,12 +28,12 @@ What was added/modififed:
         - Use this data in the POST request: { "username": "admin", "password": "admin" }
     - /bearer = tests if the correct bearer token is in the POST request
         - Use the "Bearer Token" Auth Type in Postman on the Authorization tab.
+- Enabled step debugging via xDebug
 
 TODO:
 
 - Study all the files in the `src/Api/Shared` folder. Are they needed? I just copied them from the API demo.
 - Use ActiveRecord
-- Enable Debugging via xDebug
 - Show usage of https://htmx.org/
 - Implement user management
 - Add language and timezone selection to the main menu, save them to the user profile
