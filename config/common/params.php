@@ -42,4 +42,47 @@ return [
         'username' => getenv('DB_USER'),
         'password' => getenv('DB_PASSWORD'),
     ],
+
+    'yiisoft/yii-cycle' => [
+        'dbal' => [
+            'query-logger' => null,
+            'default' => 'default',
+            'aliases' => [],
+            'databases' => [
+                'default' => ['connection' => 'mysql']
+            ],
+            'connections' => [
+                'mysql' => new \Cycle\Database\Config\MySQLDriverConfig(
+                    connection: new \Cycle\Database\Config\MySQL\DsnConnectionConfig(
+                        dsn: 'mysql:host=' . getenv('DB_HOST') . ';port=3306;charset=utf8mb4',
+                        user: getenv('DB_USER'),
+                        password: getenv('DB_PASSWORD'),
+                    )
+                ),
+            ],
+        ],
+
+        'migrations' => [
+            'directory' => '@root/migrations',
+            'namespace' => 'App\\Migration',
+            'table' => 'migration',
+            'safe' => false,
+        ],
+
+        'schema-providers' => [
+            \Cycle\Schema\Provider\SimpleCacheSchemaProvider::class => [
+                'class' => \Cycle\Schema\Provider\SimpleCacheSchemaProvider::class,
+                '__construct()' => [
+                    'key' => 'cycle-schema-cache'
+                ]
+            ],
+            \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class => [
+                'class' => \Yiisoft\Yii\Cycle\Schema\Provider\FromConveyorSchemaProvider::class,
+            ],
+        ],
+
+        'entity-paths' => [
+            '@src/Entity'
+        ],
+    ],
 ];
