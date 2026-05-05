@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d052be97770149edea4e27fdd553b0af",
+    "content-hash": "17775438fdee4baed1041464c72e4178",
     "packages": [
         {
             "name": "alexkart/curl-builder",
@@ -4164,6 +4164,80 @@
             "time": "2025-12-18T21:03:10+00:00"
         },
         {
+            "name": "yiisoft/data",
+            "version": "2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/data.git",
+                "reference": "12c4127fa6c2cd2c144212f841e01ab95c5a7796"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/data/zipball/12c4127fa6c2cd2c144212f841e01ab95c5a7796",
+                "reference": "12c4127fa6c2cd2c144212f841e01ab95c5a7796",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "8.1 - 8.5",
+                "yiisoft/arrays": "^3.0"
+            },
+            "require-dev": {
+                "bamarni/composer-bin-plugin": "^1.8.3",
+                "friendsofphp/php-cs-fixer": "^3.91.3",
+                "maglnet/composer-require-checker": "^4.7.1",
+                "phpunit/phpunit": "^10.5.60",
+                "rector/rector": "^2.2.14",
+                "spatie/phpunit-watcher": "^1.24"
+            },
+            "type": "library",
+            "extra": {
+                "bamarni-bin": {
+                    "bin-links": true,
+                    "forward-command": true,
+                    "target-directory": "tools"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yiisoft\\Data\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Data providers, pagination and related abstractions",
+            "homepage": "https://www.yiiframework.com/",
+            "keywords": [
+                "data processor",
+                "data provider",
+                "data reader",
+                "data writer",
+                "filter",
+                "pagination"
+            ],
+            "support": {
+                "chat": "https://t.me/yii3en",
+                "forum": "https://www.yiiframework.com/forum/",
+                "irc": "ircs://irc.libera.chat:6697/yii",
+                "issues": "https://github.com/yiisoft/data/issues?state=open",
+                "source": "https://github.com/yiisoft/data",
+                "wiki": "https://www.yiiframework.com/wiki/"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/yiisoft",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/yiisoft",
+                    "type": "opencollective"
+                }
+            ],
+            "time": "2025-12-13T15:25:47+00:00"
+        },
+        {
             "name": "yiisoft/data-response",
             "version": "2.2.0",
             "source": {
@@ -7019,6 +7093,99 @@
                 }
             ],
             "time": "2024-03-21T08:34:37+00:00"
+        },
+        {
+            "name": "yiisoft/yii-dataview",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii-dataview.git",
+                "reference": "832f14490a021d240b7c7d0ed476063548176cf0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii-dataview/zipball/832f14490a021d240b7c7d0ed476063548176cf0",
+                "reference": "832f14490a021d240b7c7d0ed476063548176cf0",
+                "shasum": ""
+            },
+            "require": {
+                "php": "8.1 - 8.5",
+                "psr/container": "^1.0 || ^2.0",
+                "yiisoft/arrays": "^3.1",
+                "yiisoft/data": "^2.0",
+                "yiisoft/friendly-exception": "^1.0",
+                "yiisoft/html": "^3.13 || ^4.0",
+                "yiisoft/injector": "^1.2",
+                "yiisoft/router": "^4.0",
+                "yiisoft/translator": "^3.2",
+                "yiisoft/validator": "^2.0",
+                "yiisoft/view": "^12.0.0",
+                "yiisoft/widget": "^2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.91",
+                "maglnet/composer-require-checker": "^4.7.1",
+                "phpunit/phpunit": "^10.5.58",
+                "rector/rector": "^2.1.7",
+                "roave/infection-static-analysis-plugin": "^1.35",
+                "spatie/phpunit-watcher": "^1.24",
+                "vimeo/psalm": "^5.26.1 || ^6.12",
+                "yiisoft/di": "^1.4",
+                "yiisoft/event-dispatcher": "^1.1",
+                "yiisoft/log": "^2.1.1",
+                "yiisoft/router-fastroute": "^4.0.2",
+                "yiisoft/test-support": "^3.0.2",
+                "yiisoft/translator-message-php": "^1.1.1"
+            },
+            "type": "library",
+            "extra": {
+                "config-plugin": {
+                    "di": "di.php",
+                    "params": "params.php",
+                    "widgets-themes": "widgets-themes.php"
+                },
+                "config-plugin-options": {
+                    "source-directory": "config"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Yiisoft\\Yii\\DataView\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "Yii data displaying widgets",
+            "homepage": "https://www.yiiframework.com/",
+            "keywords": [
+                "data",
+                "grid",
+                "list",
+                "view",
+                "widget",
+                "yii"
+            ],
+            "support": {
+                "chat": "https://t.me/yii3en",
+                "forum": "https://www.yiiframework.com/forum/",
+                "irc": "ircs://irc.libera.chat:6697/yii",
+                "issues": "https://github.com/yiisoft/yii-dataview/issues?state=open",
+                "source": "https://github.com/yiisoft/yii-dataview",
+                "wiki": "https://www.yiiframework.com/wiki/"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/yiisoft",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/yiisoft",
+                    "type": "opencollective"
+                }
+            ],
+            "time": "2026-03-21T14:40:58+00:00"
         },
         {
             "name": "yiisoft/yii-event",

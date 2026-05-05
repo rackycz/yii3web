@@ -30,7 +30,7 @@ return [
     ],
 
     'yiisoft/yii-view-renderer' => [
-        'viewPath' => null,
+        'viewPath' => '@src',
         'layout' => '@src/Web/Shared/Layout/Main/layout.php',
         'injections' => [
             Reference::to(CsrfViewInjection::class),
@@ -84,5 +84,12 @@ return [
         'entity-paths' => [
             '@src/Entity'
         ],
+    ],
+    'yiisoft/widget' => [
+        'themes' => [
+            'bootstrap5' => require __DIR__ . '/../../vendor/yiisoft/yii-dataview/config/widgets-themes.php',
+
+        ],
+        'theme' => 'bootstrap5',
     ],
 ];

@@ -27,6 +27,18 @@ return [
             Route::get('/')
                 ->action(Web\HomePage\Action::class)
                 ->name('home'),
+            Route::get('/user')
+                ->action(\App\User\Action\IndexAction::class)
+                ->name('user-index'),
+            Route::get('/user/view/{id:\d+}')
+                ->action(\App\User\Action\ViewAction::class)
+                ->name('/user/view'),
+            Route::methods(['POST'], '/user/edit/{id}')
+                ->action(\App\User\Action\EditAction::class)
+                ->name('/user/edit'),
+            Route::methods(['POST'], '/user/delete/{id}')
+                ->action(\App\User\Action\DeleteAction::class)
+                ->name('/user/delete'),
         ),
     Group::create('/api')
         ->middleware(

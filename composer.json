@@ -66,6 +66,7 @@
         "yiisoft/widget": "^2.2",
         "yiisoft/yii-console": "^2.4.2",
         "yiisoft/yii-cycle": "^1.0",
+        "yiisoft/yii-dataview": "^1.1",
         "yiisoft/yii-http": "^1.1.1",
         "yiisoft/yii-runner-console": "^2.2.1",
         "yiisoft/yii-runner-http": "^3.2.1",

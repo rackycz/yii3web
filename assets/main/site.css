@@ -30,17 +30,10 @@ body {
 .content {
     flex-grow: 1;
     display: flex;
-    align-items: center;
 }
 .content_i {
     flex-grow: 1;
     padding: 24px 5%;
-}
-.content a {
-    color: #00617b;
-}
-.content a:hover {
-    color: #1191b3;
 }
 
 .footer {
