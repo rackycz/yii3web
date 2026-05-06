@@ -9,6 +9,7 @@ use Yiisoft\Yii\DataView\GridView\Column\ActionColumn;
 use Yiisoft\Yii\DataView\GridView\Column\Base\DataContext;
 use Yiisoft\Yii\DataView\GridView\Column\DataColumn;
 use Yiisoft\Yii\DataView\GridView\GridView;
+use Yiisoft\Yii\DataView\YiiRouter\UrlCreator;
 
 /**
  * @var DataReaderInterface $dataProvider
@@ -28,8 +29,17 @@ use Yiisoft\Yii\DataView\GridView\GridView;
     <?= GridView::widget()
         ->dataReader($dataProvider)
         ->tableAttributes(['class' => 'table table-striped table-hover'])
+        ->urlCreator(new UrlCreator($urlGenerator))
+        ->pageSizeConstraint(3)
+        ->sortableLinkAttributes(['style' => 'text-decoration:none; color:inherit;'])
+        ->sortableHeaderAscAppend('<span class="fw-bold">⭡</span>')
+        ->sortableHeaderAscPrepend('')
+        ->sortableHeaderDescAppend('<span class="fw-bold">⭣</span>')
+        ->sortableHeaderDescPrepend('')
+        ->sortableHeaderPrepend('')
+        ->sortableHeaderAppend('<span class="text-secondary text-opacity-50">⭥</span>')
         ->columns(
-            new DataColumn(property: 'id', header: 'ID', headerAttributes: ['style' => 'width:4.2rem'],
+            new DataColumn(property: 'id', header: 'ID', headerAttributes: ['style' => 'width:4.2rem;'],
                 filter: TextInputFilter::widget()->attributes(['style' => 'width:100px', 'class' => 'form-control text-center']),
             ),
             new DataColumn(property: 'name', header: 'Name'),
@@ -63,14 +73,5 @@ use Yiisoft\Yii\DataView\GridView\GridView;
                 headerAttributes: ['style' => 'width:6rem'],
             )
         )
-    //        ->pagination(
-    //            [
-    //                'pageSize' => 20,
-    //                'pageParam' => 'page',
-    //                'pageSizeParam' => 'per-page',
-    //            ]
-    //        )
-    //        ->filter(true)
-    //        ->sorting(true)
     ?>
 </div>

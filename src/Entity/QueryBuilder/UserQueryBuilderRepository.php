@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity\QueryBuilder;
 
-use Yiisoft\Data\Reader\DataReaderInterface;
-use Yiisoft\Data\Reader\Iterable\IterableDataReader;
+use Yiisoft\Data\Paginator\OffsetPaginator;
+use Yiisoft\Data\Reader\ReadableDataInterface;
+use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Db\Connection\ConnectionInterface;
 use Yiisoft\Db\Query\Query;
 
@@ -17,7 +18,12 @@ final class UserQueryBuilderRepository
     {
     }
 
-    public function findAll(array $filter): DataReaderInterface
+    public function findAll(
+        array $filter,
+        ?Sort $sort = null,
+        int   $page = 1,
+        int   $pageSize = 10
+    ): ReadableDataInterface
     {
         $query = (new Query($this->db))
             ->select([
@@ -31,10 +37,26 @@ final class UserQueryBuilderRepository
                 'email_verified_at'
             ])
             ->from('user')
-            ->orderBy(['id' => 'ASC'])
             ->andFilterWhere($filter);
 
-        return new IterableDataReader($query->all());
+        if ($sort) {
+            $order = $sort->getOrder();
+            if (!empty($order)) {
+                $orderBy = [];
+                foreach ($order as $field => $direction) {
+                    $orderBy[$field] = $direction === 'desc' ? SORT_DESC : SORT_ASC;
+                }
+                $query = $query->orderBy($orderBy);
+            }
+        }
+
+        $dataReader = new QueryDataReader($query, $sort);
+
+        $paginator = (new OffsetPaginator($dataReader))
+            ->withPageSize($pageSize)
+            ->withCurrentPage($page);
+
+        return $paginator;
     }
 
     public function findOne(int $id): ?UserQueryBuilder

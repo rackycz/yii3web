@@ -29,6 +29,9 @@ What was added/modififed:
     - /bearer = tests if the correct bearer token is in the POST request
         - Use the "Bearer Token" Auth Type in Postman on the Authorization tab.
 - Enabled step debugging via xDebug
+- The first attempt at the user-CRUD implemented. Only routes index & view work.
+- Font Awesome added (via CDN)
+- GridView used to display list of users
 
 TODO:
 
