@@ -2,3 +2,9 @@ table th,
 table td {
     text-align: center;
 }
+
+table thead tr th,
+table thead tr td {
+    background: rgba(255, 255, 255, 0.25) !important;
+    border: none;
+}

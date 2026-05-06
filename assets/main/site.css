@@ -1,3 +1,13 @@
+body {
+    /* Basic colors were the two below (blue from Windows95 and Silver) */
+    /* background: linear-gradient(14deg, rgba(57, 110, 167, 0.3) 0%, rgba(192, 192, 192, 0.3) 100%); */
+    /* If the transparency is removed, following colors are produced: */
+    background: linear-gradient(14deg, #c5d4e5, #eaebec);
+    /* Gradient would be repeated or cut when scrolling, not stretched without this hack */
+    /* This seems to talk about the topic https://css-tricks.com/the-fixed-background-attachment-hack */
+    background-attachment: fixed;
+}
+
 html, body {
     margin: 0;
     padding: 0;
@@ -10,7 +20,6 @@ body {
     flex-direction: column;
     height: 100%;
     font: 16px/24px "Trebuchet MS", Helvetica, sans-serif;
-    background: #f8f8f8;
     color: #4b4b4b;
 }
 
