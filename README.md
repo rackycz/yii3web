@@ -35,6 +35,8 @@ What was added/modififed:
 
 TODO:
 
+- Filter in the GridView should be an array: `<input name="filter[id]" ...>`. But it may not be possible. 
+  See renderFilter() in DataColumnRenderer.
 - Study all the files in the `src/Api/Shared` folder. Are they needed? I just copied them from the API demo.
 - Use ActiveRecord
 - Show usage of https://htmx.org/
