@@ -43,7 +43,7 @@ final readonly class IndexAction
         unset($filterParams['sort'], $filterParams['page'], $filterParams['pagesize']);
 
         $page = max(1, (int)($queryParams['page'] ?? 1));
-        $pageSize = 1;
+        $pageSize = (int)($queryParams['pagesize'] ?? 1);
 
         $dataProvider = $this->userRepository->findAll(
             $filterParams,
