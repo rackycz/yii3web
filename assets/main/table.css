@@ -9,7 +9,7 @@ table thead tr td {
     border: none;
 }
 
-/* Overriding botstrap defaults */
+/* Overriding bootstrap defaults */
 
 .table > :not(caption) > * > * {
     background-color: transparent !important;
