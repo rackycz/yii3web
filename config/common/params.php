@@ -86,9 +86,9 @@ return [
         ],
     ],
     'yiisoft/widget' => [
+        'defaultTheme' => 'bootstrap5',
         'themes' => [
             'bootstrap5' => require __DIR__ . '/../../vendor/yiisoft/yii-dataview/config/widgets-themes.php',
-
         ],
         'theme' => 'bootstrap5',
     ],
