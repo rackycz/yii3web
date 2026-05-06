@@ -16,6 +16,17 @@ use Yiisoft\Yii\DataView\YiiRouter\UrlCreator;
  * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  */
 
+$gridViewLayout = <<<HTML
+{header}\n
+{toolbar}\n
+{items}\n
+<div class="row">
+<div class="col-2">{summary}</div>
+<div class="col p-0">{pager}</div>
+<div class="col-3 pe-1 text-end">{pageSize}</div>
+</div>
+HTML;
+
 ?>
 
 <div class="container mt-4">
@@ -26,11 +37,18 @@ use Yiisoft\Yii\DataView\YiiRouter\UrlCreator;
         </a>
     </div>
 
+    <style>
+        .pagination {
+            justify-content: center !important;
+        }
+    </style>
+
     <?= GridView::widget()
         ->dataReader($dataProvider)
         ->tableAttributes(['class' => 'table table-striped table-hover'])
         ->urlCreator(new UrlCreator($urlGenerator))
         ->pageSizeConstraint(3)
+        ->layout($gridViewLayout)
         ->sortableLinkAttributes(['style' => 'text-decoration:none; color:inherit;'])
         ->sortableHeaderAscAppend('<span class="fw-bold">⭡</span>')
         ->sortableHeaderAscPrepend('')
