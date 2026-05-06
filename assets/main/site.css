@@ -2,7 +2,7 @@ body {
     /* Basic colors were the two below (blue from Windows95 and Silver) */
     /* background: linear-gradient(14deg, rgba(57, 110, 167, 0.3) 0%, rgba(192, 192, 192, 0.3) 100%); */
     /* If the transparency is removed, following colors are produced: */
-    background: linear-gradient(14deg, #c5d4e5, #eaebec);
+    background: linear-gradient(14deg, #a4c1e3, #eaebec);
     /* Gradient would be repeated or cut when scrolling, not stretched without this hack */
     /* This seems to talk about the topic https://css-tricks.com/the-fixed-background-attachment-hack */
     background-attachment: fixed;
