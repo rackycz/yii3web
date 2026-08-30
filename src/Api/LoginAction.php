@@ -8,6 +8,7 @@ use App\Entity\Repository\UserRepository;
 use App\Entity\Repository\UserTokenRepository;
 use App\Entity\UserTokenType;
 use App\Shared\ApplicationParams;
+use App\Shared\PasswordService;
 use DateTimeImmutable;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -21,6 +22,7 @@ final class LoginAction
     public function __construct(
         private UserRepository      $userRepository,
         private UserTokenRepository $userTokenRepository,
+        private PasswordService     $passwordService,
     )
     {
     }
@@ -57,7 +59,7 @@ final class LoginAction
 
         $token = $this->userTokenRepository->findTokenByType($user->getId(), UserTokenType::WEB_PASSWORD_HASH);
 
-        if (!$user->validatePassword($password, $token)) {
+        if (!$this->passwordService->validate($password, $token)) {
             return $responseFactory->fail(
                 'Invalid password',
                 httpCode: Status::UNAUTHORIZED

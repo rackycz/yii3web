@@ -9,7 +9,6 @@ use App\Entity\Repository\UserRepository;
 use Cycle\Annotated\Annotation\Column;
 use Cycle\Annotated\Annotation\Entity;
 use DateTimeImmutable;
-use Yiisoft\Security\PasswordHasher;
 
 #[Entity(repository: UserRepository::class)]
 class User extends BlameableEntity
@@ -62,11 +61,6 @@ class User extends BlameableEntity
      */
     #[Column(type: 'integer')]
     private int $status = 100;
-
-    public function validatePassword(string $password, string $expectedHash): bool
-    {
-        return (new PasswordHasher())->validate($password, $expectedHash);
-    }
 
     public function getId(): ?int
     {
