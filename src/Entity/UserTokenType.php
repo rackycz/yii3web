@@ -11,9 +11,9 @@ use DateTimeImmutable;
 final class UserTokenType extends BlameableEntity
 {
     public const WEB_PASSWORD_HASH = 1;
-    public const WEB_PASSWORD_DEFAULT = 2;
+    public const WEB_PASSWORD_PLAIN = 2;
     public const API_PASSWORD_HASH = 3;
-    public const API_PASSWORD_DEFAULT = 4;
+    public const API_PASSWORD_PLAIN = 4;
     public const EMAIL_VERIFY = 5;
     public const API_BEARER = 6;
 

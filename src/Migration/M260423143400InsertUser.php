@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Migration;
 
+use App\Entity\UserTokenType;
 use Yiisoft\Db\Exception\InvalidConfigException;
 use Yiisoft\Db\Exception\NotSupportedException;
 use Yiisoft\Db\Expression\Expression;
@@ -28,15 +29,15 @@ final class M260423143400InsertUser implements RevertibleMigrationInterface, Tra
             [1, 'Admin', 'Admin', 'admin', '+420123456789', 'admin@web.cz', $now, 100],
         ]);
 
-        $webPassword = 'admin';
-        $apiPassword = 'admin';
+        $webPassword = getenv('ADMIN_WEB_PASSWORD');
+        $apiPassword = getenv('ADMIN_API_PASSWORD');
         $webPasswordHash = (new PasswordHasher())->hash($webPassword);
         $apiPasswordHash = (new PasswordHasher())->hash($apiPassword);
         $b->batchInsert('user_token', ['id', 'id_user', 'id_type', 'expires_at', 'token'], [
-            [1, 1, 1, null, $webPasswordHash],
-            [2, 1, 2, null, $webPassword],
-            [3, 1, 3, null, $apiPasswordHash],
-            [4, 1, 4, null, $apiPassword],
+            [1, 1, UserTokenType::WEB_PASSWORD_HASH, null, $webPasswordHash],
+            [2, 1, UserTokenType::WEB_PASSWORD_PLAIN, null, $webPassword],
+            [3, 1, UserTokenType::API_PASSWORD_HASH, null, $apiPasswordHash],
+            [4, 1, UserTokenType::API_PASSWORD_PLAIN, null, $apiPassword],
         ]);
     }
 
