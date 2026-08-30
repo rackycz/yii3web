@@ -72,7 +72,7 @@ final class UserRepository extends BaseRepository
         $model->setDeletedBy($row['deleted_by']);
         $model->setCreatedAt(new DateTimeImmutable($row['created_at'] ?? ''));
         $model->setUpdatedAt(new DateTimeImmutable($row['updated_at'] ?? ''));
-        $model->setDeletedAt(new DateTimeImmutable($row['deleted_by'] ?? ''));
+        $model->setDeletedAt(new DateTimeImmutable($row['deleted_at'] ?? ''));
 
         return $model;
     }
