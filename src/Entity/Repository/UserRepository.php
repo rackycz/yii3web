@@ -56,7 +56,7 @@ final class UserRepository extends BaseRepository
     /**
      * @throws \Exception
      */
-    public function hydrate(array $row): object
+    public function hydrate(array $row): User
     {
         $model = new User();
         $model->setId((int)$row['id']);

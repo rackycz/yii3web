@@ -25,7 +25,7 @@ final class UserToken extends BlameableEntity
     #[Column(type: 'datetime', notNull: true)]
     private DateTimeImmutable $expires_at;
 
-    public static function create(int $userId, string $token, int $tokenType, DateTimeImmutable $expiresAt = null): UserToken
+    public static function create(int $userId, string $token, int $tokenType, ?DateTimeImmutable $expiresAt = null): UserToken
     {
         $userToken = new UserToken();
         $userToken->id_user = $userId;

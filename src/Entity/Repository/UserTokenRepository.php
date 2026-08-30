@@ -82,7 +82,7 @@ final class UserTokenRepository extends BaseRepository
     }
 
 
-    public function hydrate(array $row): object
+    public function hydrate(array $row): UserToken
     {
         $model = new UserToken();
 

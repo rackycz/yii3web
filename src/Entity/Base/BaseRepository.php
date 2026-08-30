@@ -108,7 +108,7 @@ abstract class BaseRepository
      * @param mixed $value The value to assign to the specified attribute.
      * @return void
      */
-    protected function hydrateAttribute(object $model, mixed $attribute, mixed $value)
+    protected function hydrateAttribute(object $model, mixed $attribute, mixed $value): void
     {
         $reflection = new \ReflectionClass($model);
         $idProperty = $reflection->getProperty($attribute);
