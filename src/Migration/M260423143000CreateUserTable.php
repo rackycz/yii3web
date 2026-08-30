@@ -10,6 +10,7 @@ use Yiisoft\Db\Expression\Expression;
 use Yiisoft\Db\Migration\MigrationBuilder;
 use Yiisoft\Db\Migration\RevertibleMigrationInterface;
 use Yiisoft\Db\Migration\TransactionalMigrationInterface;
+use Yiisoft\Db\Mysql\IndexType;
 
 /**
  * Handles the creation of table `user`.
@@ -41,6 +42,7 @@ final class M260423143000CreateUserTable implements RevertibleMigrationInterface
             'deleted_at' => $columnBuilder::datetime(),
         ]);
 
+        $b->createIndex('user', 'idx_user_username', 'username', IndexType::UNIQUE);
         $b->addForeignKey('user', 'fk_user_created_by', 'created_by', 'user', 'id');
         $b->addForeignKey('user', 'fk_user_updated_by', 'updated_by', 'user', 'id');
         $b->addForeignKey('user', 'fk_user_deleted_by', 'deleted_by', 'user', 'id');
@@ -52,6 +54,7 @@ final class M260423143000CreateUserTable implements RevertibleMigrationInterface
      */
     public function down(MigrationBuilder $b): void
     {
+        $b->dropIndex('user', 'idx_user_username');
         $b->dropTable('user');
     }
 }

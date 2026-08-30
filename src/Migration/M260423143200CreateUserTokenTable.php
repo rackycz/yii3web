@@ -10,6 +10,7 @@ use Yiisoft\Db\Expression\Expression;
 use Yiisoft\Db\Migration\MigrationBuilder;
 use Yiisoft\Db\Migration\RevertibleMigrationInterface;
 use Yiisoft\Db\Migration\TransactionalMigrationInterface;
+use Yiisoft\Db\Mysql\IndexType;
 
 /**
  * Class M251013160000CreateUserTokenTable
@@ -38,6 +39,7 @@ final class M260423143200CreateUserTokenTable implements RevertibleMigrationInte
             'deleted_at' => $columnBuilder::dateTime(),
         ]);
 
+        $b->createIndex('user_token', 'idx_user_token_token_unique', 'token', IndexType::UNIQUE);
         $b->addForeignKey('user_token', 'fk_usertoken_type', 'id_type', 'user_token_type', 'id');
         $b->addForeignKey('user_token', 'fk_usertoken_created_by', 'created_by', 'user', 'id');
         $b->addForeignKey('user_token', 'fk_usertoken_updated_by', 'updated_by', 'user', 'id');
@@ -51,6 +53,7 @@ final class M260423143200CreateUserTokenTable implements RevertibleMigrationInte
      */
     public function down(MigrationBuilder $b): void
     {
+        $b->dropIndex('user_token', 'idx_user_token_token_unique');
         $b->dropTable('user_token');
     }
 }
