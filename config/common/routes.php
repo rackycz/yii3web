@@ -6,6 +6,7 @@ use App\Api\BearerAction;
 use App\Api\IndexAction;
 use App\Api\LoginAction;
 use App\Middleware\AuthMiddleware;
+use App\Middleware\CorsMiddleware;
 use App\Web;
 use Yiisoft\Csrf\CsrfTokenMiddleware;
 use Yiisoft\DataResponse\Formatter\JsonFormatter;
@@ -41,6 +42,7 @@ return [
                 ->name('/user/delete'),
         ),
     Group::create('/api')
+        ->middleware(CorsMiddleware::class)
         ->middleware(
         // This ContentNegotiator is needed because of the API.
         // If it is missing, the error "Formatter is not set" is returned.
