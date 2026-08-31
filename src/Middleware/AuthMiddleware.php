@@ -2,11 +2,10 @@
 
 namespace App\Middleware;
 
+use App\Api\Shared\ResponseFactory;
 use App\Entity\Repository\UserTokenRepository;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Yiisoft\Http\Status;
@@ -14,9 +13,8 @@ use Yiisoft\Http\Status;
 final class AuthMiddleware implements MiddlewareInterface
 {
     public function __construct(
-        private readonly UserTokenRepository      $tokenRepository,
-        private readonly ResponseFactoryInterface $responseFactory,
-        private readonly StreamFactoryInterface   $streamFactory,
+        private readonly UserTokenRepository $tokenRepository,
+        private readonly ResponseFactory     $responseFactory,
     )
     {
     }
@@ -29,21 +27,19 @@ final class AuthMiddleware implements MiddlewareInterface
         $token = $this->extractToken($request);
 
         if (!$token) {
-            return $this->responseFactory->createResponse(Status::UNAUTHORIZED)
-                ->withHeader('Content-Type', 'application/json')
-                ->withBody($this->streamFactory->createStream(json_encode([
-                    'error' => 'Authentication token required'
-                ])));
+            return $this->responseFactory->fail(
+                'Authentication token required',
+                httpCode: Status::UNAUTHORIZED
+            );
         }
 
         $userToken = $this->tokenRepository->findByToken($token);
 
         if (!$userToken) {
-            return $this->responseFactory->createResponse(Status::UNAUTHORIZED)
-                ->withHeader('Content-Type', 'application/json')
-                ->withBody($this->streamFactory->createStream(json_encode([
-                    'error' => 'Invalid or expired token'
-                ])));
+            return $this->responseFactory->fail(
+                'Invalid or expired token',
+                httpCode: Status::UNAUTHORIZED
+            );
         }
 
         // Add user token to request attributes for later use
