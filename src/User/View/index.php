@@ -93,17 +93,14 @@ HTML;
                     $viewIcon = (string)Html::a(
                         '<i class="fa-regular fa-eye"></i>',
                         $urlGenerator->generate('user/view', ['id' => $data['id']]),
-                        ['encode' => false]
                     )->encode(false);
                     $editIcon = (string)Html::a(
                         '<i class="fa-solid fa-pencil"></i>',
                         $urlGenerator->generate('user/edit', ['id' => $data['id']]),
-                        ['encode' => false]
                     )->encode(false);
                     $deleteIcon = (string)Html::a(
                         '<i class="fa-solid fa-trash"></i>',
                         $urlGenerator->generate('user/delete', ['id' => $data['id']]),
-                        ['encode' => false]
                     )->encode(false);
                     return $viewIcon . $editIcon . $deleteIcon;
                 },
