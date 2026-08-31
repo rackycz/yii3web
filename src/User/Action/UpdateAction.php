@@ -47,7 +47,7 @@ final readonly class UpdateAction
 
         if ($request->getMethod() === Method::POST) {
 
-            $isValid = $this->formHydrator->populateAndValidate($form, $request->getParsedBody());
+            $isValid = $this->formHydrator->populateFromPostAndValidate($form, $request);
 
             if ($isValid) {
                 $this->userRepository->update($id, [
