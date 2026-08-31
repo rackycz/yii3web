@@ -1,5 +1,15 @@
 # phpstorm project files
-.idea
+
+# Allow Git to enter the .idea folder
+!.idea/
+
+# Ignore everything INSIDE the .idea folder by default
+.idea/*
+
+# Allow exceptions (allow specific files/folders back in)
+!.idea/runConfigurations/
+!.idea/php.xml
+!.idea/servers.xml
 
 # netbeans project files
 nbproject
