@@ -73,18 +73,19 @@ HTML;
         ->sortableHeaderAppend('<span class="text-secondary text-opacity-50">⭥</span>')
         ->columns(
             new DataColumn(property: 'id', header: 'ID', headerAttributes: ['style' => 'width:4.2rem;'],
+                bodyAttributes: ['style' => 'vertical-align: middle;'],
                 filter: TextInputFilter::widget()->attributes([
                     'style' => 'width:100px',
                     'class' => 'form-control text-center',
                     'value' => 444,
                 ])
             ),
-            new DataColumn(property: 'name', header: 'Name'),
-            new DataColumn(property: 'surname', header: 'Surname'),
-            new DataColumn(property: 'username', header: 'Username'),
-            new DataColumn(property: 'email', header: 'Email'),
-            new DataColumn(property: 'phone', header: 'Phone'),
-            new DataColumn(property: 'status', header: 'Status'),
+            new DataColumn(property: 'name', header: 'Name', bodyAttributes: ['style' => 'vertical-align: middle;']),
+            new DataColumn(property: 'surname', header: 'Surname', bodyAttributes: ['style' => 'vertical-align: middle;']),
+            new DataColumn(property: 'username', header: 'Username', bodyAttributes: ['style' => 'vertical-align: middle;']),
+            new DataColumn(property: 'email', header: 'Email', bodyAttributes: ['style' => 'vertical-align: middle;']),
+            new DataColumn(property: 'phone', header: 'Phone', bodyAttributes: ['style' => 'vertical-align: middle;']),
+            new DataColumn(property: 'status', header: 'Status', bodyAttributes: ['style' => 'vertical-align: middle;']),
             new ActionColumn(
                 urlCreator: static function (string $action, DataContext $context) use ($urlGenerator): string {
                     // the keyword "static" prevents PHP from binding $this = saves time in large grids
@@ -98,6 +99,7 @@ HTML;
                     'delete' => new ActionButton(NoEncode::string('<i class="fa-solid fa-trash"></i>'), attributes: ['title' => 'View', 'onclick' => 'return confirm("Are you sure you want to delete this user?")']),
                 ],
                 headerAttributes: ['style' => 'width:11rem'],
+                bodyAttributes: ['style' => 'vertical-align: middle;']
             ),
             new ActionColumn(
                 header: 'Actions',
@@ -118,6 +120,7 @@ HTML;
                     return $viewIcon . $updateIcon . $deleteIcon;
                 },
                 headerAttributes: ['style' => 'width:5rem'],
+                bodyAttributes: ['style' => 'vertical-align: middle;'],
             )
         )
     ?>
