@@ -84,13 +84,15 @@ HTML;
             new DataColumn(property: 'phone', header: 'Phone'),
             new DataColumn(property: 'status', header: 'Status'),
             new ActionColumn(
-                urlCreator: function ($action, DataContext $context) {
-                    return "/user/$action/" . $context->data['id'];
+                urlCreator: static function (string $action, DataContext $context) use ($urlGenerator): string {
+                    // the urlCreator is technically useless as below icons with their URLs are created
+                    // the keyword "static" prevents PHP from binding $this = saves time in large grids
+                    return $urlGenerator->generate("user/$action", ['id' => $context->data['id']]);
                 },
                 content: static function ($data, DataContext $context) use ($urlGenerator): string {
                     $viewIcon = (string)Html::a(
                         '<i class="fa-regular fa-eye"></i>',
-                        '/user/view/' . $data['id'],
+                        $urlGenerator->generate('user/view', ['id' => $data['id']]),
                         ['encode' => false]
                     )->encode(false);
                     $editIcon = (string)Html::a(
@@ -100,7 +102,7 @@ HTML;
                     )->encode(false);
                     $deleteIcon = (string)Html::a(
                         '<i class="fa-solid fa-trash"></i>',
-                        '/user/delete/' . $data['id'],
+                        $urlGenerator->generate('user/delete', ['id' => $data['id']]),
                         ['encode' => false]
                     )->encode(false);
                     return $viewIcon . $editIcon . $deleteIcon;
