@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 use Yiisoft\Db\Query\DataReaderInterface;
 use Yiisoft\Html\Html;
+use Yiisoft\Html\NoEncode;
 use Yiisoft\Yii\DataView\Filter\Widget\TextInputFilter;
+use Yiisoft\Yii\DataView\GridView\Column\ActionButton;
 use Yiisoft\Yii\DataView\GridView\Column\ActionColumn;
 use Yiisoft\Yii\DataView\GridView\Column\Base\DataContext;
 use Yiisoft\Yii\DataView\GridView\Column\DataColumn;
@@ -85,26 +87,36 @@ HTML;
             new DataColumn(property: 'status', header: 'Status'),
             new ActionColumn(
                 urlCreator: static function (string $action, DataContext $context) use ($urlGenerator): string {
-                    // the urlCreator is technically useless as below icons with their URLs are created
                     // the keyword "static" prevents PHP from binding $this = saves time in large grids
+                    // $action = the key in the array of buttons
                     return $urlGenerator->generate("user/$action", ['id' => $context->data['id']]);
                 },
+                header: 'Actions',
+                buttons: [
+                    'view' => new ActionButton(NoEncode::string('<i class="fa-solid fa-eye"></i>'), attributes: ['title' => 'View']),
+                    'edit' => new ActionButton(NoEncode::string('<i class="fa-solid fa-pencil"></i>'), attributes: ['title' => 'View']),
+                    'delete' => new ActionButton(NoEncode::string('<i class="fa-solid fa-trash"></i>'), attributes: ['title' => 'View']),
+                ],
+                headerAttributes: ['style' => 'width:11rem'],
+            ),
+            new ActionColumn(
+                header: 'Actions',
                 content: static function ($data, DataContext $context) use ($urlGenerator): string {
-                    $viewIcon = (string)Html::a(
-                        '<i class="fa-regular fa-eye"></i>',
+                    $eye = '<i class="fa-regular fa-eye"></i>';
+                    $pencil = '<i class="fa-solid fa-pencil"></i>';
+                    $trash = '<i class="fa-solid fa-trash"></i>';
+                    $viewIcon = (string)Html::a($eye,
                         $urlGenerator->generate('user/view', ['id' => $data['id']]),
                     )->encode(false);
-                    $editIcon = (string)Html::a(
-                        '<i class="fa-solid fa-pencil"></i>',
+                    $editIcon = (string)Html::a($pencil,
                         $urlGenerator->generate('user/edit', ['id' => $data['id']]),
                     )->encode(false);
-                    $deleteIcon = (string)Html::a(
-                        '<i class="fa-solid fa-trash"></i>',
+                    $deleteIcon = (string)Html::a($trash,
                         $urlGenerator->generate('user/delete', ['id' => $data['id']]),
                     )->encode(false);
                     return $viewIcon . $editIcon . $deleteIcon;
                 },
-                headerAttributes: ['style' => 'width:6rem'],
+                headerAttributes: ['style' => 'width:5rem'],
             )
         )
     ?>
