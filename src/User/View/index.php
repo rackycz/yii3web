@@ -95,7 +95,7 @@ HTML;
                 buttons: [
                     'view' => new ActionButton(NoEncode::string('<i class="fa-solid fa-eye"></i>'), attributes: ['title' => 'View']),
                     'update' => new ActionButton(NoEncode::string('<i class="fa-solid fa-pencil"></i>'), attributes: ['title' => 'View']),
-                    'delete' => new ActionButton(NoEncode::string('<i class="fa-solid fa-trash"></i>'), attributes: ['title' => 'View']),
+                    'delete' => new ActionButton(NoEncode::string('<i class="fa-solid fa-trash"></i>'), attributes: ['title' => 'View', 'onclick' => 'return confirm("Are you sure you want to delete this user?")']),
                 ],
                 headerAttributes: ['style' => 'width:11rem'],
             ),
@@ -113,6 +113,7 @@ HTML;
                     )->encode(false);
                     $deleteIcon = (string)Html::a($trash,
                         $urlGenerator->generate('user/delete', ['id' => $data['id']]),
+                        ['onclick' => 'return confirm("Are you sure you want to delete this user?")']
                     )->encode(false);
                     return $viewIcon . $updateIcon . $deleteIcon;
                 },
