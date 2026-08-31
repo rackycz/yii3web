@@ -65,6 +65,7 @@ return [
                 ->name('app/login'),
             Route::get('/bearer')
                 ->middleware(AuthMiddleware::class)
-                ->action(BearerAction::class)->name('app/bearer'),
+                ->action(BearerAction::class)
+                ->name('app/bearer'),
         ),
 ];
