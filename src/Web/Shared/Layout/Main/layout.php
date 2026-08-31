@@ -69,6 +69,7 @@ $topMenuItems = Menu::widget()
                 ],
             ],
             ['label' => 'Disabled', 'link' => '#', 'disabled' => true],
+            ['label' => 'Users', 'link' => $urlGenerator->generate('user/index')],
         ]
     )
     ->render();
