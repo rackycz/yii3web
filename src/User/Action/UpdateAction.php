@@ -10,6 +10,7 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\FormModel\FormHydrator;
+use Yiisoft\Http\Method;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
@@ -38,15 +39,13 @@ final readonly class UpdateAction
         }
 
         $form = new UserUpdateForm();
+        $this->formHydrator->populate(
+            $form,
+            $user->toArray(),
+            scope: ''
+        );
 
-        $form->name = $user->getName();
-        $form->surname = $user->getSurname();
-        $form->username = $user->getUsername();
-        $form->email = $user->getEmail();
-        $form->phone = $user->getPhone();
-        $form->status = $user->getStatus();
-
-        if ($request->getMethod() === 'POST') {
+        if ($request->getMethod() === Method::POST) {
 
             $isValid = $this->formHydrator->populateAndValidate($form, $request->getParsedBody());
 
