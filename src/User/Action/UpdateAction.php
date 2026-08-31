@@ -37,12 +37,12 @@ final readonly class UpdateAction
         }
 
         $form = new UserUpdateForm();
-        $form->setName($user->getName());
-        $form->setSurname($user->getSurname());
-        $form->setUsername($user->getUsername());
-        $form->setEmail($user->getEmail());
-        $form->setPhone($user->getPhone());
-        $form->setStatus($user->getStatus());
+        $form->name = $user->getName();
+        $form->surname = $user->getSurname();
+        $form->username = $user->getUsername();
+        $form->email = $user->getEmail();
+        $form->phone = $user->getPhone();
+        $form->status = $user->getStatus();
 
         if ($request->getMethod() === 'POST') {
             $form->populate($request->getParsedBody()['UserUpdateForm'] ?? []);
@@ -50,12 +50,12 @@ final readonly class UpdateAction
 
             if ($result->isValid()) {
                 $updateData = [
-                    'name' => $form->getName(),
-                    'surname' => $form->getSurname(),
-                    'username' => $form->getUsername(),
-                    'email' => $form->getEmail(),
-                    'phone' => $form->getPhone(),
-                    'status' => $form->getStatus(),
+                    'name' => $form->name,
+                    'surname' => $form->surname,
+                    'username' => $form->username,
+                    'email' => $form->email,
+                    'phone' => $form->phone,
+                    'status' => $form->status,
                 ];
 
                 $this->userRepository->update($id, $updateData);

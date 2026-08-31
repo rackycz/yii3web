@@ -7,79 +7,18 @@ namespace App\User\Form;
 use Yiisoft\FormModel\FormModel;
 use Yiisoft\Validator\Rule\Email;
 use Yiisoft\Validator\Rule\In;
-use Yiisoft\Validator\Rule\InRange;
 use Yiisoft\Validator\Rule\Length;
 use Yiisoft\Validator\Rule\Required;
 use Yiisoft\Validator\RulesProviderInterface;
 
 final class UserUpdateForm extends FormModel implements RulesProviderInterface
 {
-    private ?string $name = null;
-    private ?string $surname = null;
-    private ?string $username = null;
-    private ?string $email = null;
-    private ?string $phone = null;
-    private ?int $status = null;
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(?string $name): void
-    {
-        $this->name = $name;
-    }
-
-    public function getSurname(): ?string
-    {
-        return $this->surname;
-    }
-
-    public function setSurname(?string $surname): void
-    {
-        $this->surname = $surname;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(?string $username): void
-    {
-        $this->username = $username;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(?string $email): void
-    {
-        $this->email = $email;
-    }
-
-    public function getPhone(): ?string
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?string $phone): void
-    {
-        $this->phone = $phone;
-    }
-
-    public function getStatus(): ?int
-    {
-        return $this->status;
-    }
-
-    public function setStatus(?int $status): void
-    {
-        $this->status = $status;
-    }
+    public ?string $name = null;
+    public ?string $surname = null;
+    public ?string $username = null;
+    public ?string $email = null;
+    public ?string $phone = null;
+    public ?int $status = null;
 
     public function getAttributeLabels(): array
     {
@@ -136,14 +75,11 @@ final class UserUpdateForm extends FormModel implements RulesProviderInterface
 
     public function populate(array $data): void
     {
-        $this->setName($data['name'] ?? null);
-        $this->setSurname($data['surname'] ?? null);
-        $this->setUsername($data['username'] ?? null);
-        $this->setEmail($data['email'] ?? null);
-        $this->setPhone($data['phone'] ?? null);
-
-        $this->setStatus(
-            isset($data['status']) ? (int)$data['status'] : null
-        );
+        $this->name = $data['name'] ?? null;
+        $this->surname = $data['surname'] ?? null;
+        $this->username = $data['username'] ?? null;
+        $this->email = $data['email'] ?? null;
+        $this->phone = $data['phone'] ?? null;
+        $this->status = isset($data['status']) ? (int)$data['status'] : null;
     }
 }
