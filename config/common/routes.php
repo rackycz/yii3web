@@ -18,12 +18,13 @@ use Yiisoft\Session\SessionMiddleware;
 
 return [
     Group::create()
-        // If CSRF is missing, the error "422 Unprocessable entity" will be returned.
-        // Only needed in the web application.
-        ->middleware(CsrfTokenMiddleware::class)
         // Session middleware is needed only for the web application.
         // REST API has no session.
         ->middleware(SessionMiddleware::class)
+        // If CSRF is missing, the error "422 Unprocessable entity" will be returned.
+        // Only needed in the web application.
+        // The order of middleware is important. CSRF needs Session so CSRF must go 2nd
+        ->middleware(CsrfTokenMiddleware::class)
         ->routes(
             Route::get('/')
                 ->action(Web\HomePage\Action::class)
