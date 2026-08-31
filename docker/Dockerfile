@@ -36,6 +36,7 @@ RUN install-php-extensions \
     xdebug
 
 COPY --from=composer /composer /usr/bin/composer
+COPY docker/dev/xdebug.ini /usr/local/etc/php/conf.d/xdebug.ini
 
 # Based on https://frankenphp.dev/docs/docker/#running-as-a-non-root-user
 RUN \
