@@ -71,7 +71,10 @@
         "yiisoft/yii-runner-console": "^2.2.1",
         "yiisoft/yii-runner-http": "^3.2.1",
         "yiisoft/yii-view-renderer": "^7.4.1",
-        "yiisoft/yii-widgets": "dev-master"
+        "yiisoft/yii-widgets": "dev-master",
+        "yiisoft/validator": "^2.6.0",
+        "yiisoft/form": "^1.5.2",
+        "yiisoft/form-model": "^1.1.1"
     },
     "require-dev": {
         "vlucas/phpdotenv": "^5.6",

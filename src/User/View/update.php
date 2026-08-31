@@ -3,12 +3,23 @@
 declare(strict_types=1);
 
 use App\Entity\QueryBuilder\UserQueryBuilder;
-use Yiisoft\Html\Form;
+use App\User\Form\UserUpdateForm;
+use Yiisoft\FormModel\Field;
 use Yiisoft\Html\Html;
+use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Yii\View\Renderer\Csrf;
 
 /**
  * @var UserQueryBuilder $user
+ * @var UserUpdateForm $form
+ * @var array $validationErrors
+ * @var UrlGeneratorInterface $urlGenerator
+ * @var Csrf $csrf
  */
+
+$htmlForm = Html::form()
+    ->post($urlGenerator->generate('user/update', ['id' => $user->getId()]))
+    ->csrf($csrf);
 ?>
 
 <div class="container mt-4">
@@ -24,50 +35,72 @@ use Yiisoft\Html\Html;
             <h5 class="card-title mb-0">Update User Information</h5>
         </div>
         <div class="card-body">
-            <form method="post" action="/user/update/<?= $user->getId() ?>">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" name="name"
-                                   value="<?= Html::encode($user->getName()) ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="surname" class="form-label">Surname</label>
-                            <input type="text" class="form-control" id="surname" name="surname"
-                                   value="<?= Html::encode($user->getSurname()) ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username"
-                                   value="<?= Html::encode($user->getUsername() ?? '') ?>">
-                        </div>
+            <?php if (!empty($validationErrors)): ?>
+                <div class="alert alert-danger">
+                    <strong>Please fix the following errors:</strong>
+                    <ul class="mb-0">
+                        <?php foreach ($validationErrors as $field => $errors): ?>
+                            <?php foreach ($errors as $error): ?>
+                                <li><?= Html::encode($error) ?></li>
+                            <?php endforeach; ?>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php endif; ?>
+
+            <?= $htmlForm->open() ?>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <?= Field::text($form, 'name')
+                            ->label('Name')
+                            ->addInputClass('form-control')
+                            ->addInputAttributes(['required' => true]) ?>
+
                     </div>
-                    <div class="col-md-6">
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email"
-                                   value="<?= Html::encode($user->getEmail()) ?>" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone</label>
-                            <input type="tel" class="form-control" id="phone" name="phone"
-                                   value="<?= Html::encode($user->getPhone() ?? '') ?>">
-                        </div>
-                        <div class="mb-3">
-                            <label for="status" class="form-label">Status</label>
-                            <select class="form-select" id="status" name="status">
-                                <option value="100" <?= $user->getStatus() === 100 ? 'selected' : '' ?>>Active</option>
-                                <option value="0" <?= $user->getStatus() === 0 ? 'selected' : '' ?>>Inactive</option>
-                            </select>
-                        </div>
+                    <div class="mb-3">
+                        <?= Field::text($form, 'surname')
+                            ->label('Surname')
+                            ->addInputClass('form-control')
+                            ->addInputAttributes(['required' => true]) ?>
+                    </div>
+                    <div class="mb-3">
+                        <?= Field::text($form, 'username')
+                            ->label('Username')
+                            ->addInputClass('form-control') ?>
                     </div>
                 </div>
-                <div class="d-flex justify-content-end">
-                    <a href="/user" class="btn btn-secondary me-2">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <?= Field::email($form, 'email')
+                            ->label('Email')
+                            ->addInputClass('form-control')
+                            ->addInputAttributes(['required' => true]) ?>
+                    </div>
+                    <div class="mb-3">
+                        <?= Field::telephone($form, 'phone')
+                            ->label('Phone')
+                            ->addInputClass('form-control') ?>
+                    </div>
+                    <div class="mb-3">
+                        <?= Field::select($form, 'status')
+                            ->optionsData([
+                                0 => 'Active',
+                                100 => 'Inactive',
+                            ])
+                            ->label('Status')
+                            ->addInputClass('form-select') ?>
+                    </div>
                 </div>
-            </form>
+            </div>
+
+            <div class="d-flex justify-content-end mt-3">
+                <?= Html::a('Cancel', '/user', ['class' => 'btn btn-secondary me-2']) ?>
+                <?= Html::submitButton('Save Changes', ['class' => 'btn btn-primary']) ?>
+            </div>
+
+            <?= $htmlForm->close() ?>
         </div>
     </div>
 </div>
