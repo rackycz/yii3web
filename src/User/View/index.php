@@ -87,7 +87,7 @@ HTML;
                 urlCreator: function ($action, DataContext $context) {
                     return "/user/$action/" . $context->data['id'];
                 },
-                content: static function ($data, DataContext $context): string {
+                content: static function ($data, DataContext $context) use ($urlGenerator): string {
                     $viewIcon = (string)Html::a(
                         '<i class="fa-regular fa-eye"></i>',
                         '/user/view/' . $data['id'],
@@ -95,7 +95,7 @@ HTML;
                     )->encode(false);
                     $editIcon = (string)Html::a(
                         '<i class="fa-solid fa-pencil"></i>',
-                        '/user/edit/' . $data['id'],
+                        $urlGenerator->generate('user/edit', ['id' => $data['id']]),
                         ['encode' => false]
                     )->encode(false);
                     $deleteIcon = (string)Html::a(
