@@ -14,8 +14,8 @@ use Yiisoft\Html\Html;
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>User Details</h1>
         <div>
-            <a href="/user/edit/<?= $user->getId() ?>" class="btn btn-warning">
-                <i class="bi bi-pencil"></i> Edit
+            <a href="/user/update/<?= $user->getId() ?>" class="btn btn-warning">
+                <i class="bi bi-pencil"></i> Update
             </a>
             <a href="/user/delete/<?= $user->getId() ?>" class="btn btn-danger">
                 <i class="bi bi-trash"></i> Delete

@@ -13,7 +13,7 @@ use Yiisoft\Html\Html;
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1>Edit User</h1>
+        <h1>Update User</h1>
         <a href="/user" class="btn btn-secondary">
             <i class="bi bi-arrow-left"></i> Back to List
         </a>
@@ -21,7 +21,7 @@ use Yiisoft\Html\Html;
 
     <div class="card">
         <div class="card-header">
-            <h5 class="card-title mb-0">Edit User Information</h5>
+            <h5 class="card-title mb-0">Update User Information</h5>
         </div>
         <div class="card-body">
             <form method="post" action="/user/update/<?= $user->getId() ?>">

@@ -34,9 +34,9 @@ return [
             Route::get('/user/view/{id:\d+}')
                 ->action(\App\User\Action\ViewAction::class)
                 ->name('user/view'),
-            Route::methods(['GET', 'POST'], '/user/edit/{id}')
-                ->action(\App\User\Action\EditAction::class)
-                ->name('user/edit'),
+            Route::methods(['GET', 'POST'], '/user/update/{id}')
+                ->action(\App\User\Action\UpdateAction::class)
+                ->name('user/update'),
             Route::post('/user/delete/{id}')
                 ->action(\App\User\Action\DeleteAction::class)
                 ->name('user/delete'),

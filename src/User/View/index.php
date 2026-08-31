@@ -94,7 +94,7 @@ HTML;
                 header: 'Actions',
                 buttons: [
                     'view' => new ActionButton(NoEncode::string('<i class="fa-solid fa-eye"></i>'), attributes: ['title' => 'View']),
-                    'edit' => new ActionButton(NoEncode::string('<i class="fa-solid fa-pencil"></i>'), attributes: ['title' => 'View']),
+                    'update' => new ActionButton(NoEncode::string('<i class="fa-solid fa-pencil"></i>'), attributes: ['title' => 'View']),
                     'delete' => new ActionButton(NoEncode::string('<i class="fa-solid fa-trash"></i>'), attributes: ['title' => 'View']),
                 ],
                 headerAttributes: ['style' => 'width:11rem'],
@@ -108,13 +108,13 @@ HTML;
                     $viewIcon = (string)Html::a($eye,
                         $urlGenerator->generate('user/view', ['id' => $data['id']]),
                     )->encode(false);
-                    $editIcon = (string)Html::a($pencil,
-                        $urlGenerator->generate('user/edit', ['id' => $data['id']]),
+                    $updateIcon = (string)Html::a($pencil,
+                        $urlGenerator->generate('user/update', ['id' => $data['id']]),
                     )->encode(false);
                     $deleteIcon = (string)Html::a($trash,
                         $urlGenerator->generate('user/delete', ['id' => $data['id']]),
                     )->encode(false);
-                    return $viewIcon . $editIcon . $deleteIcon;
+                    return $viewIcon . $updateIcon . $deleteIcon;
                 },
                 headerAttributes: ['style' => 'width:5rem'],
             )

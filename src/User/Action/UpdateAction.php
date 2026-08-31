@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
-final readonly class EditAction
+final readonly class UpdateAction
 {
     public function __construct(
         private CurrentRoute               $currentRoute,
