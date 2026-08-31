@@ -72,14 +72,4 @@ final class UserUpdateForm extends FormModel implements RulesProviderInterface
             ],
         ];
     }
-
-    public function populate(array $data): void
-    {
-        $this->name = $data['name'] ?? null;
-        $this->surname = $data['surname'] ?? null;
-        $this->username = $data['username'] ?? null;
-        $this->email = $data['email'] ?? null;
-        $this->phone = $data['phone'] ?? null;
-        $this->status = isset($data['status']) ? (int)$data['status'] : null;
-    }
 }

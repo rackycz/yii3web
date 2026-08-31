@@ -39,10 +39,8 @@ $htmlForm = Html::form()
                 <div class="alert alert-danger">
                     <strong>Please fix the following errors:</strong>
                     <ul class="mb-0">
-                        <?php foreach ($validationErrors as $field => $errors): ?>
-                            <?php foreach ($errors as $error): ?>
-                                <li><?= Html::encode($error) ?></li>
-                            <?php endforeach; ?>
+                        <?php foreach ($validationErrors as $error): ?>
+                            <li><?= Html::encode($error->getMessage()) ?></li>
                         <?php endforeach; ?>
                     </ul>
                 </div>
@@ -56,19 +54,27 @@ $htmlForm = Html::form()
                         <?= Field::text($form, 'name')
                             ->label('Name')
                             ->addInputClass('form-control')
-                            ->addInputAttributes(['required' => true]) ?>
-
+                            ->inputInvalidClass('is-invalid')
+                            ->errorAttributes(['class' => 'invalid-feedback'])
+                            ->addInputAttributes(['required' => true])
+                        ?>
                     </div>
                     <div class="mb-3">
                         <?= Field::text($form, 'surname')
                             ->label('Surname')
                             ->addInputClass('form-control')
-                            ->addInputAttributes(['required' => true]) ?>
+                            ->inputInvalidClass('is-invalid')
+                            ->errorAttributes(['class' => 'invalid-feedback'])
+                            ->addInputAttributes(['required' => true])
+                        ?>
                     </div>
                     <div class="mb-3">
                         <?= Field::text($form, 'username')
                             ->label('Username')
-                            ->addInputClass('form-control') ?>
+                            ->inputInvalidClass('is-invalid')
+                            ->errorAttributes(['class' => 'invalid-feedback'])
+                            ->addInputClass('form-control')
+                        ?>
                     </div>
                 </div>
                 <div class="col-md-6">
@@ -76,12 +82,18 @@ $htmlForm = Html::form()
                         <?= Field::email($form, 'email')
                             ->label('Email')
                             ->addInputClass('form-control')
-                            ->addInputAttributes(['required' => true]) ?>
+                            ->inputInvalidClass('is-invalid')
+                            ->errorAttributes(['class' => 'invalid-feedback'])
+                            ->addInputAttributes(['required' => true])
+                        ?>
                     </div>
                     <div class="mb-3">
                         <?= Field::telephone($form, 'phone')
                             ->label('Phone')
-                            ->addInputClass('form-control') ?>
+                            ->addInputClass('form-control')
+                            ->inputInvalidClass('is-invalid')
+                            ->errorAttributes(['class' => 'invalid-feedback'])
+                        ?>
                     </div>
                     <div class="mb-3">
                         <?= Field::select($form, 'status')
@@ -90,7 +102,10 @@ $htmlForm = Html::form()
                                 100 => 'Inactive',
                             ])
                             ->label('Status')
-                            ->addInputClass('form-select') ?>
+                            ->addInputClass('form-select')
+                            ->inputInvalidClass('is-invalid')
+                            ->errorAttributes(['class' => 'invalid-feedback'])
+                        ?>
                     </div>
                 </div>
             </div>

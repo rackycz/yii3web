@@ -9,9 +9,9 @@ use App\User\Form\UserUpdateForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Router\CurrentRoute;
 use Yiisoft\Router\UrlGeneratorInterface;
-use Yiisoft\Validator\ValidatorInterface;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final readonly class UpdateAction
@@ -20,7 +20,7 @@ final readonly class UpdateAction
         private CurrentRoute               $currentRoute,
         private WebViewRenderer            $viewRenderer,
         private UserQueryBuilderRepository $userRepository,
-        private ValidatorInterface         $validator,
+        private FormHydrator               $formHydrator,
         private UrlGeneratorInterface      $urlGenerator,
         private ResponseFactoryInterface   $responseFactory,
     )
@@ -32,11 +32,13 @@ final readonly class UpdateAction
         $id = (int)$this->currentRoute->getArgument('id');
 
         $user = $this->userRepository->findOne($id);
+
         if ($user === null) {
             throw new \RuntimeException("User $id not found");
         }
 
         $form = new UserUpdateForm();
+
         $form->name = $user->getName();
         $form->surname = $user->getSurname();
         $form->username = $user->getUsername();
@@ -45,31 +47,32 @@ final readonly class UpdateAction
         $form->status = $user->getStatus();
 
         if ($request->getMethod() === 'POST') {
-            $form->populate($request->getParsedBody()['UserUpdateForm'] ?? []);
-            $result = $this->validator->validate($form);
 
-            if ($result->isValid()) {
-                $updateData = [
+            $isValid = $this->formHydrator->populateAndValidate($form, $request->getParsedBody());
+
+            if ($isValid) {
+                $this->userRepository->update($id, [
                     'name' => $form->name,
                     'surname' => $form->surname,
                     'username' => $form->username,
                     'email' => $form->email,
                     'phone' => $form->phone,
                     'status' => $form->status,
-                ];
-
-                $this->userRepository->update($id, $updateData);
+                ]);
 
                 return $this->responseFactory
                     ->createResponse(302)
-                    ->withHeader('Location', $this->urlGenerator->generate('user/index'));
+                    ->withHeader(
+                        'Location',
+                        $this->urlGenerator->generate('user/index'),
+                    );
             }
         }
 
         return $this->viewRenderer->render('User/View/update', [
             'user' => $user,
             'form' => $form,
-            'validationErrors' => [],
+            'validationErrors' => $form->isValidated() ? $form->getValidationResult()->getErrors() : [],
         ]);
     }
 }
