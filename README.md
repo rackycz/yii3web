@@ -7,9 +7,14 @@
     <br>
 </p>
 
-This is a clone of the official web application https://github.com/yiisoft/app
+> This application is a clone of the official web application https://github.com/yiisoft/app
+>
+> ... and is discussed in my wiki page
+[Yii3 - How to start](https://www.yiiframework.com/wiki/2581/yii3-how-to-start)
 
-What was added/modififed:
+
+
+What was added/modififed (for details see the Git history):
 
 - CSS Bootstrap was added and the main menu was created
     - Rendered using `Yiisoft\Yii\Widgets\Menu` from https://github.com/yiisoft/yii-widgets
