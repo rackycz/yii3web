@@ -27,6 +27,7 @@ What was added/modififed (for details see the Git history):
     - Note: Error "422 Unprocessable entity" = missing CSRF token
     - Note: Error "Formatter is not set" = the API does not know whether XML or JSON should be returned. See the
       solution in `config/common/routes.php`.
+    - CORS enabled
 - REST API endpoints added
     - / = Lists all the users
     - /login = validates the login and creates the bearer token
@@ -34,9 +35,10 @@ What was added/modififed (for details see the Git history):
     - /bearer = tests if the correct bearer token is in the POST request
         - Use the "Bearer Token" Auth Type in Postman on the Authorization tab.
 - Enabled step debugging via xDebug
-- The first attempt at the user-CRUD implemented. Only routes index & view work.
+- User-CRUD implemented + CSRF
 - Font Awesome added (via CDN)
-- GridView used to display list of users
+- GridView used to display list of users. (pagesize = 1)
+- Both technologies `ActiveRecord` and `QueryBuilder + Repository` are used when updating user for comparison.
 
 TODO:
 
