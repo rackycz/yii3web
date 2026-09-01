@@ -35,6 +35,9 @@ return [
             Route::get('/user/view/{id:\d+}')
                 ->action(\App\User\Action\ViewAction::class)
                 ->name('user/view'),
+            Route::methods(['GET', 'POST'], '/user/create')
+                ->action(\App\User\Action\CreateAction::class)
+                ->name('user/create'),
             Route::methods(['GET', 'POST'], '/user/update/{id}')
                 ->action(\App\User\Action\UpdateAction::class) // QueryBuilder demo
 //                ->action(\App\User\Action\ActiveRecord\UpdateAction::class) // ActiveRecordDemo
