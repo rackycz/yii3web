@@ -14,10 +14,12 @@ use Yiisoft\Yii\DataView\GridView\GridView;
 use Yiisoft\Yii\DataView\Url\UrlParameterProviderInterface;
 use Yiisoft\Yii\DataView\Url\UrlParameterType;
 use Yiisoft\Yii\DataView\YiiRouter\UrlCreator;
+use Yiisoft\Yii\View\Renderer\Csrf;
 
 /**
  * @var DataReaderInterface $dataProvider
  * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
+ * @var Csrf $csrf
  */
 
 $gridViewLayout = <<<HTML
@@ -96,7 +98,20 @@ HTML;
                 buttons: [
                     'view' => new ActionButton(NoEncode::string('<i class="fa-solid fa-eye"></i>'), attributes: ['title' => 'View']),
                     'update' => new ActionButton(NoEncode::string('<i class="fa-solid fa-pencil"></i>'), attributes: ['title' => 'View']),
-                    'delete' => new ActionButton(NoEncode::string('<i class="fa-solid fa-trash"></i>'), attributes: ['title' => 'View', 'onclick' => 'return confirm("Are you sure you want to delete this user?")']),
+                    'delete' => static function ($url) use ($urlGenerator, $csrf): string {
+                        $htmlForm = Html::form()
+                            ->post($url)
+                            ->csrf($csrf)
+                            ->attribute('style', 'display:inline');
+                        $html = $htmlForm->open();
+                        $html .= Html::submitButton(
+                            NoEncode::string('<span class="btn btn-outline-secondary"><i class="fa-solid fa-trash"></i></span>'),
+                            ['class' => 'btn btn-link p-0 text-danger', 'onclick' => 'return confirm("Are you sure you want to delete this user?")']
+                        );
+                        $html .= $htmlForm->close();
+
+                        return $html;
+                    },
                 ],
                 headerAttributes: ['style' => 'width:11rem'],
                 bodyAttributes: ['style' => 'vertical-align: middle;']
