@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Reader\Sort;
 use Yiisoft\Router\UrlGeneratorInterface;
+use Yiisoft\Session\Flash\Flash;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final readonly class IndexAction
@@ -16,7 +17,8 @@ final readonly class IndexAction
     public function __construct(
         private WebViewRenderer            $viewRenderer,
         private UserQueryBuilderRepository $userRepository,
-        private UrlGeneratorInterface      $urlGenerator
+        private UrlGeneratorInterface      $urlGenerator,
+        private Flash                      $flash
     )
     {
     }
@@ -55,6 +57,7 @@ final readonly class IndexAction
         return $this->viewRenderer->render('User/View/index', [
             'dataProvider' => $dataProvider,
             'urlGenerator' => $this->urlGenerator,
+            'flash' => $this->flash,
         ]);
     }
 }

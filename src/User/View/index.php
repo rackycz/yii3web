@@ -5,6 +5,7 @@ declare(strict_types=1);
 use Yiisoft\Db\Query\DataReaderInterface;
 use Yiisoft\Html\Html;
 use Yiisoft\Html\NoEncode;
+use Yiisoft\Session\Flash\Flash;
 use Yiisoft\Yii\DataView\Filter\Widget\TextInputFilter;
 use Yiisoft\Yii\DataView\GridView\Column\ActionButton;
 use Yiisoft\Yii\DataView\GridView\Column\ActionColumn;
@@ -20,6 +21,7 @@ use Yiisoft\Yii\View\Renderer\Csrf;
  * @var DataReaderInterface $dataProvider
  * @var Yiisoft\Router\UrlGeneratorInterface $urlGenerator
  * @var Csrf $csrf
+ * @var Flash $flash
  */
 
 $gridViewLayout = <<<HTML
@@ -36,6 +38,28 @@ HTML;
 ?>
 
 <div class="container mt-4">
+    <?php if ($flash->has('success')): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <?php
+            foreach ($flash->get('success') as $message) {
+                echo Html::encode($message);
+            }
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
+    <?php if ($flash->has('error')): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <?php
+            foreach ($flash->get('error') as $message) {
+                echo Html::encode($message);
+            }
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Users</h1>
         <a href="/user/create" class="btn btn-primary">
