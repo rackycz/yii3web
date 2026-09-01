@@ -36,7 +36,8 @@ return [
                 ->action(\App\User\Action\ViewAction::class)
                 ->name('user/view'),
             Route::methods(['GET', 'POST'], '/user/update/{id}')
-                ->action(\App\User\Action\UpdateAction::class)
+                ->action(\App\User\Action\UpdateAction::class) // QueryBuilder demo
+//                ->action(\App\User\Action\ActiveRecord\UpdateAction::class) // ActiveRecordDemo
                 ->name('user/update'),
             Route::post('/user/delete/{id}')
                 ->action(\App\User\Action\DeleteAction::class)

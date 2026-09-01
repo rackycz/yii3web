@@ -15,12 +15,19 @@ use Yiisoft\Yii\View\Renderer\Csrf;
  * @var array $validationErrors
  * @var UrlGeneratorInterface $urlGenerator
  * @var Csrf $csrf
+ * @var string $note
  */
 
 $htmlForm = Html::form()
     ->post($urlGenerator->generate('user/update', ['id' => $user->getId()]))
     ->csrf($csrf);
 ?>
+
+<?php if (!empty($note)): ?>
+    <div class="alert alert-info">
+        <?= $note ?>
+    </div>
+<?php endif; ?>
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">

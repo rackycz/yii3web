@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\User\Action;
+namespace App\User\Action\ActiveRecord;
 
-use App\Entity\QueryBuilder\UserQueryBuilderRepository;
+use App\Entity\ActiveRecord\User;
 use App\User\Form\UserUpdateForm;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -18,12 +18,11 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class UpdateAction
 {
     public function __construct(
-        private CurrentRoute               $currentRoute,
-        private WebViewRenderer            $viewRenderer,
-        private UserQueryBuilderRepository $userRepository,
-        private FormHydrator               $formHydrator,
-        private UrlGeneratorInterface      $urlGenerator,
-        private ResponseFactoryInterface   $responseFactory,
+        private CurrentRoute             $currentRoute,
+        private WebViewRenderer          $viewRenderer,
+        private FormHydrator             $formHydrator,
+        private UrlGeneratorInterface    $urlGenerator,
+        private ResponseFactoryInterface $responseFactory,
     )
     {
     }
@@ -32,32 +31,28 @@ final readonly class UpdateAction
     {
         $id = (int)$this->currentRoute->getArgument('id');
 
-        $user = $this->userRepository->findOne($id);
+        $user = User::query()->where(['id' => $id])->one();
 
         if ($user === null) {
             throw new \RuntimeException("User $id not found");
         }
 
         $form = new UserUpdateForm();
-        $this->formHydrator->populate(
-            $form,
-            $user->toArray(),
-            scope: ''
-        );
+        $this->formHydrator->populate($form, $user->oldValues(), scope: '');
 
         if ($request->getMethod() === Method::POST) {
 
             $isValid = $this->formHydrator->populateFromPostAndValidate($form, $request);
 
             if ($isValid) {
-                $this->userRepository->update($id, [
-                    'name' => $form->name,
-                    'surname' => $form->surname,
-                    'username' => $form->username,
-                    'email' => $form->email,
-                    'phone' => $form->phone,
-                    'status' => $form->status,
-                ]);
+                $user->name = $form->name;
+                $user->surname = $form->surname;
+                $user->username = $form->username;
+                $user->email = $form->email;
+                $user->phone = $form->phone;
+                $user->status = $form->status;
+
+                $user->save();
 
                 return $this->responseFactory
                     ->createResponse(302)
@@ -72,7 +67,7 @@ final readonly class UpdateAction
             'user' => $user,
             'form' => $form,
             'validationErrors' => $form->isValidated() ? $form->getValidationResult()->getErrors() : [],
-            'note' => 'QueryBuilder demo (see routes.php)',
+            'note' => 'ActiveRecord demo (see routes.php)',
         ]);
     }
 }
