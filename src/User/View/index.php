@@ -109,7 +109,6 @@ HTML;
                             ['class' => 'btn btn-link p-0 text-danger', 'onclick' => 'return confirm("Are you sure you want to delete this user?")']
                         );
                         $html .= $htmlForm->close();
-
                         return $html;
                     },
                 ],
@@ -118,7 +117,7 @@ HTML;
             ),
             new ActionColumn(
                 header: 'Actions',
-                content: static function ($data, DataContext $context) use ($urlGenerator): string {
+                content: static function ($data, DataContext $context) use ($urlGenerator, $csrf): string {
                     $eye = '<i class="fa-regular fa-eye"></i>';
                     $pencil = '<i class="fa-solid fa-pencil"></i>';
                     $trash = '<i class="fa-solid fa-trash"></i>';
@@ -128,13 +127,26 @@ HTML;
                     $updateIcon = (string)Html::a($pencil,
                         $urlGenerator->generate('user/update', ['id' => $data['id']]),
                     )->encode(false);
-                    $deleteIcon = (string)Html::a($trash,
-                        $urlGenerator->generate('user/delete', ['id' => $data['id']]),
-                        ['onclick' => 'return confirm("Are you sure you want to delete this user?")']
-                    )->encode(false);
-                    return $viewIcon . $updateIcon . $deleteIcon;
+
+                    $url = $urlGenerator->generate('user/delete', ['id' => $data['id']]);
+                    $htmlForm = Html::form()
+                        ->post($url)
+                        ->csrf($csrf)
+                        ->attribute('style', 'display:inline-block;');
+                    $deletePostBtn = $htmlForm->open();
+                    $deletePostBtn .= Html::submitButton(
+                        NoEncode::string($trash),
+                        [
+                            'class' => 'btn btn-link p-0 m-0',
+                            'onclick' => 'return confirm("Are you sure you want to delete this user?")',
+                        ]
+                    );
+                    $deletePostBtn .= $htmlForm->close();
+
+
+                    return $viewIcon . $updateIcon . $deletePostBtn;
                 },
-                headerAttributes: ['style' => 'width:5rem'],
+                headerAttributes: ['style' => 'width:6rem'],
                 bodyAttributes: ['style' => 'vertical-align: middle;'],
             )
         )
