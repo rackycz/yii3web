@@ -9,10 +9,12 @@ use App\User\Service\UserService;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use RuntimeException;
 use Yiisoft\FormModel\FormHydrator;
 use Yiisoft\Http\Method;
 use Yiisoft\Router\UrlGeneratorInterface;
 use Yiisoft\Session\Flash\Flash;
+use Yiisoft\Validator\Error;
 use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 
 final readonly class CreateAction
@@ -31,19 +33,13 @@ final readonly class CreateAction
     public function __invoke(ServerRequestInterface $request): ResponseInterface
     {
         $form = new UserUpdateForm();
+        $validationErrors = [];
 
         if ($request->getMethod() === Method::POST) {
-            $isValid = $this->formHydrator->populateFromPostAndValidate($form, $request);
+            $this->formHydrator->populateFromPost($form, $request);
 
-            if ($isValid) {
-                $this->userService->create([
-                    'name' => $form->name,
-                    'surname' => $form->surname,
-                    'username' => $form->username,
-                    'email' => $form->email,
-                    'phone' => $form->phone,
-                    'status' => $form->status,
-                ]);
+            try {
+                $this->userService->createFromForm($form);
 
                 $this->flash->add('success', 'User created successfully');
 
@@ -53,12 +49,14 @@ final readonly class CreateAction
                         'Location',
                         $this->urlGenerator->generate('user/index'),
                     );
+            } catch (RuntimeException $e) {
+                $validationErrors = [new Error($e->getMessage())];
             }
         }
 
         return $this->viewRenderer->render('User/View/create', [
             'form' => $form,
-            'validationErrors' => $form->isValidated() ? $form->getValidationResult()->getErrors() : [],
+            'validationErrors' => $validationErrors,
         ]);
     }
 }
