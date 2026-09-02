@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\User\Action;
 
-use App\Entity\QueryBuilder\UserQueryBuilderRepository;
 use App\User\Form\UserUpdateForm;
+use App\User\Service\UserService;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,12 +18,12 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class CreateAction
 {
     public function __construct(
-        private WebViewRenderer            $viewRenderer,
-        private UserQueryBuilderRepository $userRepository,
-        private FormHydrator               $formHydrator,
-        private UrlGeneratorInterface      $urlGenerator,
-        private ResponseFactoryInterface   $responseFactory,
-        private Flash                      $flash,
+        private WebViewRenderer          $viewRenderer,
+        private UserService              $userService,
+        private FormHydrator             $formHydrator,
+        private UrlGeneratorInterface    $urlGenerator,
+        private ResponseFactoryInterface $responseFactory,
+        private Flash                    $flash,
     )
     {
     }
@@ -36,7 +36,7 @@ final readonly class CreateAction
             $isValid = $this->formHydrator->populateFromPostAndValidate($form, $request);
 
             if ($isValid) {
-                $this->userRepository->create([
+                $this->userService->create([
                     'name' => $form->name,
                     'surname' => $form->surname,
                     'username' => $form->username,

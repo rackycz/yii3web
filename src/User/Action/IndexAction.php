@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Action;
 
-use App\Entity\QueryBuilder\UserQueryBuilderRepository;
+use App\User\Service\UserService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Data\Reader\Sort;
@@ -15,10 +15,10 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class IndexAction
 {
     public function __construct(
-        private WebViewRenderer            $viewRenderer,
-        private UserQueryBuilderRepository $userRepository,
-        private UrlGeneratorInterface      $urlGenerator,
-        private Flash                      $flash
+        private WebViewRenderer       $viewRenderer,
+        private UserService           $userService,
+        private UrlGeneratorInterface $urlGenerator,
+        private Flash                 $flash
     )
     {
     }
@@ -47,7 +47,7 @@ final readonly class IndexAction
         $page = max(1, (int)($queryParams['page'] ?? 1));
         $pageSize = (int)($queryParams['pagesize'] ?? 1);
 
-        $dataProvider = $this->userRepository->findAll(
+        $dataProvider = $this->userService->findAll(
             $filterParams,
             $sort,
             $page,

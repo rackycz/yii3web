@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\User\Action;
 
-use App\Entity\QueryBuilder\UserQueryBuilderRepository;
 use App\User\Form\UserUpdateForm;
+use App\User\Service\UserService;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,12 +18,12 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class UpdateAction
 {
     public function __construct(
-        private CurrentRoute               $currentRoute,
-        private WebViewRenderer            $viewRenderer,
-        private UserQueryBuilderRepository $userRepository,
-        private FormHydrator               $formHydrator,
-        private UrlGeneratorInterface      $urlGenerator,
-        private ResponseFactoryInterface   $responseFactory,
+        private CurrentRoute             $currentRoute,
+        private WebViewRenderer          $viewRenderer,
+        private UserService              $userService,
+        private FormHydrator             $formHydrator,
+        private UrlGeneratorInterface    $urlGenerator,
+        private ResponseFactoryInterface $responseFactory,
     )
     {
     }
@@ -32,7 +32,7 @@ final readonly class UpdateAction
     {
         $id = (int)$this->currentRoute->getArgument('id');
 
-        $user = $this->userRepository->findOne($id);
+        $user = $this->userService->findOne($id);
 
         if ($user === null) {
             throw new \RuntimeException("User $id not found");
@@ -50,7 +50,7 @@ final readonly class UpdateAction
             $isValid = $this->formHydrator->populateFromPostAndValidate($form, $request);
 
             if ($isValid) {
-                $this->userRepository->update($id, [
+                $this->userService->update($id, [
                     'name' => $form->name,
                     'surname' => $form->surname,
                     'username' => $form->username,

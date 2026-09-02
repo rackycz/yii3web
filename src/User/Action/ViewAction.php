@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Action;
 
-use App\Entity\QueryBuilder\UserQueryBuilderRepository;
+use App\User\Service\UserService;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Yiisoft\Router\CurrentRoute;
@@ -13,9 +13,9 @@ use Yiisoft\Yii\View\Renderer\WebViewRenderer;
 final readonly class ViewAction
 {
     public function __construct(
-        private WebViewRenderer            $viewRenderer,
-        private UserQueryBuilderRepository $userRepository,
-        private CurrentRoute               $currentRoute,
+        private WebViewRenderer $viewRenderer,
+        private UserService     $userService,
+        private CurrentRoute    $currentRoute,
     )
     {
     }
@@ -29,7 +29,7 @@ final readonly class ViewAction
             throw new \RuntimeException('Invalid ID');
         }
 
-        $user = $this->userRepository->findOne($id);
+        $user = $this->userService->findOne($id);
         if ($user === null) {
             // Handle 404 - you might want to throw an exception or return a 404 response
             throw new \RuntimeException('User not found');

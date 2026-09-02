@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\User\Action;
 
-use App\Entity\QueryBuilder\UserQueryBuilderRepository;
-use App\Entity\Repository\UserTokenRepository;
+use App\User\Service\UserService;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,12 +16,11 @@ use Yiisoft\Session\Flash\Flash;
 final readonly class DeleteAction
 {
     public function __construct(
-        private UserQueryBuilderRepository $userRepository,
-        private UserTokenRepository        $userTokenRepository,
-        private CurrentRoute               $currentRoute,
-        private UrlGeneratorInterface      $urlGenerator,
-        private ResponseFactoryInterface   $responseFactory,
-        private Flash                      $flash,
+        private UserService              $userService,
+        private CurrentRoute             $currentRoute,
+        private UrlGeneratorInterface    $urlGenerator,
+        private ResponseFactoryInterface $responseFactory,
+        private Flash                    $flash,
     )
     {
     }
@@ -35,14 +33,7 @@ final readonly class DeleteAction
 
         $id = (int)$this->currentRoute->getArgument('id');
 
-        $user = $this->userRepository->findOne($id);
-
-        if ($user === null) {
-            throw new \RuntimeException('User not found');
-        }
-
-        $this->userTokenRepository->delete(['id_user' => $id]);
-        $this->userRepository->delete($id);
+        $this->userService->delete($id);
 
         $this->flash->add('success', 'User deleted successfully');
 
